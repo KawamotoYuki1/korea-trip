@@ -186,7 +186,7 @@
   </div>
 </section>
 <div class="section-bg-warm"><section class="food-section fade-in">
-  <div class="section-title-cute"><h2>🍽️ グルメプラン</h2><div class="badge">全8食</div></div>
+  <div class="section-title-cute"><h2>🍽️ グルメプラン</h2><div class="badge">全9食</div></div>
   <div class="food-grid" id="food-grid"></div>
 </section></div>
 <div class="section-bg-tips"><section class="tips-section fade-in">
@@ -211,13 +211,16 @@ const timeline={
   day1:[
     {time:"14:15",emoji:"✈️",title:"ICN T1 到着 → WOWPASS発行",desc:"到着ロビーでTマネー付き決済カード発行",dur:"⏱ 約15分",type:"spot",detail:"T1到着ロビー1FにWOWPASS発行機。日本円チャージで交通+買い物OK。",search:"인천국제공항 제1터미널",lat:37.4602,lng:126.4407},
     {type:"move",label:"🚃 空港鉄道(一般) → ソウル駅 → 地下鉄4号線 → 明洞駅（約70分）"},
-    {time:"15:30",emoji:"🏨",title:"ホテルチェックイン",desc:"ザ ウェスティン ジョスン ソウル",dur:"⏱ 約30分",type:"spot",detail:"106 Sogong-ro, Jung-gu / 明洞駅徒歩5分",search:"웨스틴조선서울",lat:37.5650,lng:126.9810},
+    {time:"15:30",emoji:"🦀",title:"昼食 : カンジャンケジャン",desc:"醤油漬けワタリガニ / 明洞〜乙支路",dur:"⏱ 約1時間",type:"food",detail:"韓国三大珍味。カニみそ×ご飯が最高。遅めランチで到着後すぐ韓国グルメ！",search:"간장게장 명동",lat:37.5660,lng:126.9900,undecided:true},
+    {type:"move",label:"🚶 徒歩 → ホテル（5分）"},
+    {time:"16:45",emoji:"🏨",title:"ホテルチェックイン",desc:"ザ ウェスティン ジョスン ソウル",dur:"⏱ 約30分",type:"spot",detail:"106 Sogong-ro, Jung-gu / 明洞駅徒歩5分",search:"웨스틴조선서울",lat:37.5650,lng:126.9810},
     {type:"move",label:"🚶 徒歩 ホテル → 明洞ショッピングエリア（5分）"},
-    {time:"16:30",emoji:"🛍️",title:"明洞ショッピング",desc:"コスメ・ファッション・お土産",dur:"⏱ 約1.5時間",type:"spot",detail:"WOWPASSか現金推奨。路面店でのクレカはスキミング注意。",search:"명동",lat:37.5636,lng:126.9850},
-    {type:"move",label:"🚶 徒歩 明洞 → 乙支路エリア（5分）"},
-    {time:"18:00",emoji:"🦀",title:"夕食 : カンジャンケジャン",desc:"醤油漬けワタリガニ / 明洞〜乙支路",dur:"⏱ 約1.5時間",type:"food",detail:"韓国三大珍味。カニみそ×ご飯が最高。",search:"간장게장 명동",lat:37.5660,lng:126.9900,undecided:true},
+    {time:"17:15",emoji:"🛍️",title:"明洞ショッピング",desc:"コスメ・ファッション・お土産",dur:"⏱ 約1.5時間",type:"spot",detail:"WOWPASSか現金推奨。路面店でのクレカはスキミング注意。",search:"명동",lat:37.5636,lng:126.9850},
     {type:"move",label:"🚇 地下鉄 or タクシー → 東大門（15分）"},
-    {time:"20:00",emoji:"🌃",title:"東大門ナイトショッピング",desc:"doota! mall / ミリオレ / 深夜まで営業",dur:"⏱ 約2時間",type:"spot",detail:"ファッションビルが深夜営業。卸売ビルは夜からオープン。",search:"동대문 쇼핑",lat:37.5710,lng:127.0095},
+    {time:"19:00",emoji:"🌃",title:"東大門ナイトショッピング",desc:"doota! mall / ミリオレ / 深夜まで営業",dur:"⏱ 約1.5時間",type:"spot",detail:"ファッションビルが深夜営業。卸売ビルは夜からオープン。",search:"동대문 쇼핑",lat:37.5710,lng:127.0095},
+    {type:"move",label:"🚶 徒歩 東大門エリア内（5分）"},
+    {time:"20:30",emoji:"🐔",title:"夕食 : タッカンマリ",desc:"鶏一羽まるごと鍋！東大門名物",dur:"⏱ 約1.5時間",type:"food",detail:"鶏を丸ごと煮込んだ鍋。特製タレで。東大門タッカンマリ横丁が有名。",search:"진옥화할메원조닭한마리",lat:37.5705,lng:127.0070,
+      candidates:[{name:"陳玉華ハルメ元祖タッカンマリ",url:"https://map.naver.com/v5/search/진옥화할메원조닭한마리"}]},
     {type:"move",label:"🚇 地下鉄 東大門 → 明洞（10分）"},
     {type:"hotel",label:"🏨 ホテルに戻る（ウェスティンジョスン / 明洞）"},
   ],
@@ -332,7 +335,8 @@ buildTimeline('day3','tl-day3');
 
 // Food
 const foods=[
-  {emoji:"🦀",day:"1日目 夕食",name:"カンジャンケジャン",area:"明洞〜乙支路",undecided:true,links:[]},
+  {emoji:"🦀",day:"1日目 昼食",name:"カンジャンケジャン",area:"明洞〜乙支路",undecided:true,links:[]},
+  {emoji:"🐔",day:"1日目 夕食",name:"タッカンマリ",area:"東大門",links:[{n:"陳玉華ハルメ元祖タッカンマリ",u:"https://map.naver.com/v5/search/진옥화할메원조닭한마리"}]},
   {emoji:"🍲",day:"2日目 朝食",name:"ソルロンタン",area:"明洞",links:[{n:"神仙ソルロンタン",u:"https://map.naver.com/v5/search/신선설농탕 명동"},{n:"味成屋",u:"https://map.naver.com/v5/search/미성옥 명동"}]},
   {emoji:"🥐",day:"2日目 ブランチ",name:"ベーカリー巡り",area:"安国〜益善洞",bakery:true,links:[{n:"オニオン安国",u:"https://map.naver.com/v5/search/어니언 안국"},{n:"小夏塩田",u:"https://map.naver.com/v5/search/소하염전"},{n:"アーティストベーカリー",u:"https://map.naver.com/v5/search/아티스트베이커리 북촌"}]},
   {emoji:"🍜",day:"2日目 昼食",name:"カルグクス",area:"広蔵市場",links:[{n:"広蔵市場",u:"https://map.naver.com/v5/search/광장시장"}]},
