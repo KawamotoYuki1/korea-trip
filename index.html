@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ソウル旅行 2026</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;600;700;900&family=Zen+Maru+Gothic:wght@400;500;700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{--coral:#E8453C;--sky:#42A5F5;--sage:#4CAF93;--purple:#AB47BC;--orange:#FF8C00;--deep:#333;--brown:#555;--blue-dark:#2B3A4E}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#FAFAFA;color:var(--deep);overflow-x:hidden}
+  .hero{position:relative;height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;overflow:hidden}
+  .hero-bg{position:absolute;inset:0;background:url('https://res.klook.com/image/upload/q_85/c_fill,w_750/v1710828699/cdbutc4ynve9mywqr5hy.jpg') center/cover no-repeat}
+  .hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,107,107,.7),rgba(255,142,83,.6) 40%,rgba(255,200,87,.5))}
+  .hero-tag{position:relative;font-family:'Zen Maru Gothic',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;color:#fff;margin-bottom:6px;animation:fadeUp .8s ease both}
+  .hero h1{position:relative;font-family:'Playfair Display',serif;font-size:clamp(44px,9vw,80px);font-weight:900;line-height:1;letter-spacing:-2px;color:#fff;margin-bottom:2px;animation:fadeUp .8s .1s ease both;text-shadow:0 2px 12px rgba(0,0,0,.2)}
+  .hero h1 .accent{color:#FFF9C4;font-style:italic}
+  .hero-hangul{position:relative;font-size:clamp(16px,3vw,26px);font-weight:300;color:#fff;opacity:.85;margin-bottom:10px;letter-spacing:6px;animation:fadeUp .8s .2s ease both}
+  .hero-dates{position:relative;display:flex;align-items:center;gap:14px;font-size:13px;font-weight:600;color:#fff;animation:fadeUp .8s .3s ease both}
+  .hero-dates .divider{width:28px;height:2px;background:rgba(255,255,255,.5)}
+  .hero-hotel{position:relative;margin-top:8px;animation:fadeUp .8s .4s ease both}
+  .hero-hotel a{font-size:14px;color:#fff;font-weight:700;text-decoration:none;background:rgba(0,0,0,.3);padding:5px 16px;border-radius:100px;backdrop-filter:blur(6px);transition:background .2s}
+  .hero-hotel a:hover{background:rgba(0,0,0,.5)}
+  .flight-banner{background:var(--blue-dark);color:#fff;padding:24px 20px}
+  .flight-inner{max-width:800px;margin:0 auto;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+  .flight-leg{flex:1;min-width:260px;padding:12px 16px;background:rgba(255,255,255,.06);border-radius:12px;border:1px solid rgba(255,255,255,.08)}
+  .flight-label{font-size:10px;letter-spacing:2px;color:rgba(255,255,255,.4);margin-bottom:6px}
+  .flight-route{display:flex;align-items:center;gap:10px}
+  .flight-city{text-align:center}
+  .flight-code{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;line-height:1}
+  .flight-airport{font-size:9px;color:rgba(255,255,255,.55);margin-top:1px}
+  .flight-time{font-size:11px;color:rgba(255,255,255,.5);margin-top:1px}
+  .flight-line{flex:1;display:flex;align-items:center}
+  .flight-line::before,.flight-line::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.2)}
+  .flight-line .plane{font-size:14px;margin:0 4px;opacity:.6}
+  .flight-info{font-size:10px;color:rgba(255,255,255,.35);margin-top:4px}
+  .flight-checkin{display:inline-block;margin-top:5px;font-size:11px;font-weight:700;color:#FFC857;background:rgba(255,199,87,.15);padding:2px 10px;border-radius:6px}
+  .tabs-section{max-width:900px;margin:0 auto;padding:24px 20px 0}
+  .day-tabs{display:flex;gap:6px;flex-wrap:wrap}
+  .day-tab{padding:9px 20px;border:2px solid transparent;border-radius:100px;font-size:13px;font-weight:700;cursor:pointer;background:#fff;color:var(--brown);transition:all .25s;font-family:'Noto Sans JP',sans-serif;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+  .day-tab:hover{border-color:#FFB347}
+  .day-tab.active{background:var(--coral);color:#fff;border-color:var(--coral)}
+  .day-content{display:none}.day-content.active{display:block}
+  .day-block{max-width:900px;margin:0 auto;padding:20px 20px 32px}
+  .day-header{display:flex;align-items:baseline;gap:12px;margin-bottom:4px;flex-wrap:wrap}
+  .day-num{font-family:'Playfair Display',serif;font-size:50px;font-weight:900;line-height:1;color:var(--coral);opacity:.2}
+  .day-info h3{font-size:18px;font-weight:700}
+  .day-info .date{font-size:11px;color:var(--brown);opacity:.6}
+  .day-route{font-size:11px;font-weight:600;color:var(--coral);letter-spacing:.5px;margin-bottom:16px;padding:6px 12px;background:linear-gradient(90deg,rgba(232,69,60,.06),transparent);border-left:3px solid var(--coral);border-radius:0 8px 8px 0}
+  .tl{position:relative}
+  .tl-item{position:relative;margin-bottom:4px;display:flex;align-items:flex-start;cursor:pointer;user-select:none}
+  .tl-time-col{width:58px;flex-shrink:0;padding-top:10px;text-align:right;padding-right:10px}
+  .tl-time-text{font-size:12px;font-weight:700;line-height:1.2;font-family:'DM Sans','Noto Sans JP',sans-serif}
+  .tl-card{flex:1;min-width:0;padding:8px 12px;background:#fff;border-radius:12px;box-shadow:0 1px 6px rgba(44,24,16,.04);transition:transform .2s,box-shadow .2s;display:flex;gap:8px;align-items:flex-start}
+  .tl-item:hover .tl-card{transform:translateX(3px);box-shadow:0 3px 12px rgba(44,24,16,.08)}
+  .tl-item.is-food .tl-card{border-left:3px solid var(--coral)}
+  .tl-item.is-spot .tl-card{border-left:3px solid var(--sky)}
+  .tl-item.is-casino .tl-card{border-left:3px solid var(--purple);background:linear-gradient(135deg,rgba(196,166,215,.06),#fff)}
+  .tl-marker-num{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff;flex-shrink:0;margin-top:1px;font-family:'DM Sans',sans-serif}
+  .tl-emoji{font-size:22px;line-height:1;flex-shrink:0}
+  .tl-body{flex:1;min-width:0}
+  .tl-title{font-size:13px;font-weight:700;line-height:1.4}
+  .tl-desc{font-size:10px;color:var(--brown);opacity:.6;line-height:1.5}
+  .tl-dur{font-size:9px;color:#999;margin-top:1px;font-family:'DM Sans','Noto Sans JP',sans-serif}
+  .tl-badges{display:flex;gap:3px;margin-top:2px;flex-wrap:wrap}
+  .tl-badge{font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;display:inline-flex;align-items:center;gap:1px;font-family:'Zen Maru Gothic',sans-serif}
+  .tl-badge.bakery{background:#FFF3E0;color:#E65100}
+  .tl-badge.undecided{background:#FFF9C4;color:#F57F17}
+  .tl-badge.candidates{background:#E8F5E9;color:#2E7D32}
+  .tl-badge.hanbok{background:#F3E5F5;color:#7B1FA2}
+  .tl-expand-icon{font-size:9px;color:#ccc;transition:transform .2s;margin-left:auto;margin-top:3px;flex-shrink:0}
+  .tl-item.expanded .tl-expand-icon{transform:rotate(180deg)}
+  .tl-item.is-move .tl-card{background:transparent;box-shadow:none;padding:2px 10px;border-left:none}
+  .tl-item.is-move .tl-move-label{font-size:10px;color:#bbb;font-weight:400;display:flex;align-items:center;gap:4px}
+  .tl-item.is-move .tl-move-label .move-line{flex:1;height:1px;background:#e8e8e8;margin-left:4px}
+  .tl-item.is-move:hover .tl-card{transform:none;box-shadow:none}
+  .tl-item.is-move .tl-expand-icon{display:none}
+  .tl-item.is-hotel .tl-card{background:linear-gradient(90deg,rgba(66,165,245,.04),transparent);border-left:2px dashed #B0D4F1;box-shadow:none;padding:3px 10px}
+  .tl-item.is-hotel .tl-move-label{font-size:10px;color:#90CAF9;font-weight:600}
+  .tl-detail{max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;margin-left:68px;background:#FAFAF8;border-radius:0 0 12px 12px;box-shadow:0 2px 6px rgba(44,24,16,.03)}
+  .tl-item.expanded+.tl-detail{max-height:280px;padding:8px 14px 10px}
+  .tl-detail-text{font-size:11px;color:var(--brown);line-height:1.6;margin-bottom:4px}
+  .tl-map-links{display:flex;gap:5px;flex-wrap:wrap}
+  .tl-map-link{display:inline-flex;align-items:center;gap:2px;font-size:9px;font-weight:600;padding:2px 7px;border-radius:5px;text-decoration:none;transition:opacity .2s}
+  .tl-map-link:hover{opacity:.8}
+  .tl-map-link.naver{background:#1EC800;color:#fff}
+  .tl-map-link.google{background:#4285F4;color:#fff}
+  .tl-detail-candidates{margin-top:4px}
+  .tl-detail-candidates a{display:block;font-size:10px;color:var(--sky);text-decoration:none;padding:1px 0;font-weight:600}
+  .tl-detail-candidates a:hover{text-decoration:underline}
+  .map-section{padding:8px 20px 28px;max-width:900px;margin:0 auto}
+  .map-section h2{font-size:20px;font-weight:700;margin-bottom:8px}
+  #map{width:100%;height:360px;border-radius:16px;box-shadow:0 8px 32px rgba(44,24,16,.1);border:3px solid #fff}
+  .legend-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px}
+  .legend-item{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--brown);opacity:.7}
+  .legend-dot{width:7px;height:7px;border-radius:50%}
+  .section-bg-warm{background:linear-gradient(180deg,#FFF9F0,#FAFAFA);padding-top:24px;position:relative}
+  .section-bg-warm::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(232,69,60,.04) 1.5px,transparent 1.5px);background-size:22px 22px;pointer-events:none}
+  .food-section{max-width:900px;margin:0 auto;padding:0 20px 28px;position:relative}
+  .section-title-cute{display:flex;align-items:center;gap:8px;margin-bottom:14px;font-family:'Zen Maru Gothic',sans-serif}
+  .section-title-cute h2{font-size:22px;font-weight:900}
+  .section-title-cute .badge{font-size:10px;font-weight:700;background:var(--coral);color:#fff;padding:2px 10px;border-radius:100px}
+  .food-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px}
+  .food-card{background:#fff;border-radius:12px;padding:10px 12px;display:flex;align-items:flex-start;gap:8px;box-shadow:0 1px 6px rgba(0,0,0,.05);transition:transform .2s;border:1px solid rgba(232,69,60,.1)}
+  .food-card:hover{transform:translateY(-2px)}
+  .food-emoji{font-size:26px;flex-shrink:0}
+  .food-card-info{flex:1}
+  .food-card-name{font-size:12px;font-weight:700}
+  .food-card-detail{font-size:10px;color:var(--brown);opacity:.6;margin-top:1px}
+  .food-card-day{font-size:8px;font-weight:700;color:#fff;background:var(--coral);display:inline-block;padding:1px 6px;border-radius:3px;margin-bottom:2px}
+  .food-card-links{display:flex;gap:3px;flex-wrap:wrap;margin-top:3px}
+  .food-link{font-size:9px;font-weight:600;color:var(--sky);text-decoration:none;background:#E3F2FD;padding:1px 5px;border-radius:3px}
+  .food-link:hover{background:#BBDEFB}
+  .food-status{font-size:8px;font-weight:700;display:inline-flex;align-items:center;gap:2px;margin-top:2px;padding:1px 5px;border-radius:3px;font-family:'Zen Maru Gothic',sans-serif}
+  .food-status.undecided{background:#FFF9C4;color:#F57F17}
+  .food-status.multi{background:#E8F5E9;color:#2E7D32}
+  .section-bg-tips{background:linear-gradient(180deg,#F0F7FF,#FFF9F0);padding:24px 0 32px;position:relative}
+  .section-bg-tips::before{content:'';position:absolute;inset:0;opacity:.3;background-image:radial-gradient(circle,#FFE0B2 1px,transparent 1px),radial-gradient(circle,#BBDEFB 1px,transparent 1px);background-size:30px 30px,45px 45px;background-position:0 0,15px 15px;pointer-events:none}
+  .tips-section{max-width:900px;margin:0 auto;padding:0 20px;position:relative}
+  .tips-header{text-align:center;margin-bottom:16px}
+  .tips-header h2{font-family:'Zen Maru Gothic',sans-serif;font-size:20px;font-weight:900;display:inline-block;background:linear-gradient(135deg,#FFE0B2,#FFCC80);padding:5px 20px;border-radius:100px;box-shadow:0 2px 8px rgba(255,152,0,.15)}
+  .tips-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+  .tip-card{border-radius:16px;padding:14px 16px;position:relative;overflow:hidden;border:2px dashed transparent;font-family:'Zen Maru Gothic',sans-serif}
+  .tip-card::before{content:'';position:absolute;inset:0;opacity:.35;background-size:18px 18px;background-image:radial-gradient(circle,currentColor .8px,transparent .8px);pointer-events:none}
+  .tip-card.wowpass{background:#FFF8E1;border-color:#FFE082;color:#F57F17}
+  .tip-card.wowpass::before{color:#FFF9C4}
+  .tip-card.payment{background:#FFF3E0;border-color:#FFCC80;color:#E65100}
+  .tip-card.payment::before{color:#FFE0B2}
+  .tip-card.apps{background:#E8F5E9;border-color:#A5D6A7;color:#2E7D32}
+  .tip-card.apps::before{color:#C8E6C9}
+  .tip-card.casino{background:#F3E5F5;border-color:#CE93D8;color:#7B1FA2}
+  .tip-card.casino::before{color:#E1BEE7}
+  .tip-card.packing{background:#E3F2FD;border-color:#90CAF9;color:#1565C0}
+  .tip-card.packing::before{color:#BBDEFB}
+  .tip-card h3{font-size:14px;font-weight:900;margin-bottom:8px;position:relative}
+  .tip-card ul{list-style:none;padding:0;position:relative}
+  .tip-card li{font-size:11px;padding:2px 0;line-height:1.6;color:var(--deep)}
+  .tip-card li strong{font-weight:700}
+  .tip-card .warn{color:var(--coral);font-weight:700}
+  .tip-card .tip-link{color:inherit;font-weight:700;text-decoration:underline;text-decoration-style:dotted}
+  .footer{text-align:center;padding:28px 20px;font-size:10px;color:#bbb;border-top:1px solid #eee}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  .fade-in{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
+  .fade-in.visible{opacity:1;transform:translateY(0)}
+  .leaflet-popup-content-wrapper{border-radius:10px;font-family:'Noto Sans JP',sans-serif;box-shadow:0 4px 16px rgba(0,0,0,.12)}
+  .leaflet-popup-content{margin:8px 12px;font-size:12px;font-weight:600;line-height:1.4}
+  @media(max-width:600px){
+    .hero{height:220px}.hero h1{letter-spacing:-1px}#map{height:260px}.day-num{font-size:40px}
+    .flight-inner{flex-direction:column}.food-grid,.tips-grid{grid-template-columns:1fr}
+    .tl-time-col{width:48px;padding-right:6px}.tl-time-text{font-size:10px}.tl-detail{margin-left:56px}.tl-emoji{font-size:18px}
+  }
+</style>
+</head>
+<body>
+<section class="hero">
+  <div class="hero-bg"></div><div class="hero-overlay"></div>
+  <div class="hero-tag">韓国作戦会議🇰🇷</div>
+  <h1>S<span class="accent">eo</span>ul</h1>
+  <div class="hero-hangul">서울 여행</div>
+  <div class="hero-dates"><span>2026.03.07 Sat</span><div class="divider"></div><span>2026.03.09 Mon</span></div>
+  <div class="hero-hotel"><a href="https://www.agoda.com/ja-jp/the-westin-chosun-seoul/hotel/seoul-kr.html" target="_blank" rel="noopener">🏨 The Westin Josun Seoul</a></div>
+</section>
+<section class="flight-banner"><div class="flight-inner">
+  <div class="flight-leg"><div class="flight-label">ゆき - 3月7日（土）</div><div class="flight-route"><div class="flight-city"><div class="flight-code">NRT</div><div class="flight-airport">成田空港 T3</div><div class="flight-time">11:20</div></div><div class="flight-line"><span class="plane">✈</span></div><div class="flight-city"><div class="flight-code">ICN</div><div class="flight-airport">仁川国際空港 T1</div><div class="flight-time">14:15</div></div></div><div class="flight-info">ZE 606 / 受託手荷物込み</div><div class="flight-checkin">🕐 チェックイン 10:00</div></div>
+  <div class="flight-leg"><div class="flight-label">かえり - 3月9日（月）</div><div class="flight-route"><div class="flight-city"><div class="flight-code">ICN</div><div class="flight-airport">仁川国際空港 T2</div><div class="flight-time">20:40</div></div><div class="flight-line"><span class="plane">✈</span></div><div class="flight-city"><div class="flight-code">HND</div><div class="flight-airport">羽田空港 T3</div><div class="flight-time">22:50</div></div></div><div class="flight-info">KE 751 / 大韓航空 B787-10 / 機内食あり</div><div class="flight-checkin">🕐 チェックイン 19:00</div></div>
+</div></section>
+<div class="tabs-section"><div class="day-tabs">
+  <button class="day-tab active" onclick="switchDay(1)">1日目 到着</button>
+  <button class="day-tab" onclick="switchDay(2)">2日目 メイン</button>
+  <button class="day-tab" onclick="switchDay(3)">3日目 最終日</button>
+  <button class="day-tab" onclick="switchDay(0)">🍽️ グルメ</button>
+</div></div>
+<div class="day-content active" data-day="1"><div class="day-block fade-in"><div class="day-header"><div class="day-num">01</div><div class="day-info"><h3>到着 → 明洞・東大門</h3><div class="date">3/7 (土)</div></div></div><div class="day-route">ICN T1 → 明洞 → 東大門</div><div class="tl" id="tl-day1"></div></div></div>
+<div class="day-content" data-day="2"><div class="day-block fade-in"><div class="day-header"><div class="day-num">02</div><div class="day-info"><h3>安国 → 聖水 → 清潭 → 蚕室</h3><div class="date">3/8 (日) グルメ&観光フルコース</div></div></div><div class="day-route">明洞 → 安国 → 益善洞 → 広蔵市場 → 聖水 → 清潭 → 蚕室 → 漢江</div><div class="tl" id="tl-day2"></div></div></div>
+<div class="day-content" data-day="3"><div class="day-block fade-in"><div class="day-header"><div class="day-num">03</div><div class="day-info"><h3>カロスキル → 現代ソウル → カジノ → 空港</h3><div class="date">3/9 (月) 最終日 / KE751 20:40発</div></div></div><div class="day-route">明洞 → 新沙 → カロスキル → 汝矣島 → ソウル駅 → カジノ → ICN T2</div><div class="tl" id="tl-day3"></div></div></div>
+<section class="map-section fade-in">
+  <h2>📍 ルートマップ</h2><div id="map"></div>
+  <div class="legend-row">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--sky)"></div>観光</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--coral)"></div>グルメ</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div>カジノ</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#FFA726"></div>ホテル</div>
+  </div>
+</section>
+<div class="section-bg-warm"><section class="food-section fade-in">
+  <div class="section-title-cute"><h2>🍽️ グルメプラン</h2><div class="badge">全8食</div></div>
+  <div class="food-grid" id="food-grid"></div>
+</section></div>
+<div class="section-bg-tips"><section class="tips-section fade-in">
+  <div class="tips-header"><h2>✨ お役立ち TIPS ✨</h2></div>
+  <div class="tips-grid">
+    <div class="tip-card wowpass"><h3>💳 WOWPASS</h3><ul><li><strong>ICN T1 到着ロビーで発行</strong></li><li>Tマネー(交通IC)付きチャージカード</li><li>日本円→ウォン、コンビニ・飲食・地下鉄OK</li><li>📹 <a class="tip-link" href="https://www.instagram.com/reels/CsnvgJ3AMNO/" target="_blank" rel="noopener">使い方動画(Instagram)</a></li></ul></div>
+    <div class="tip-card payment"><h3>💰 支払い</h3><ul><li><strong>WOWPASS</strong> メイン決済</li><li><strong>クレカ</strong> 百貨店・ホテル</li><li><strong>ワンバンクペアカード</strong> VISA対応店</li><li><strong>現金</strong> 市場・屋台</li><li class="warn">⚠️ 明洞路面店ではクレカ✗（スキミング注意）</li></ul></div>
+    <div class="tip-card apps"><h3>📱 アプリ</h3><ul><li><strong>NAVERマップ</strong> 経路検索（Googleより正確）</li><li><strong>Kakao T</strong> タクシー配車（安い！）</li><li><strong>Papago</strong> 韓日翻訳</li><li><strong>WOWPASS</strong> 決済管理</li><li><strong>CATCH TABLE</strong> レストラン予約</li><li><strong>Uber</strong> タクシーサブ</li></ul></div>
+    <div class="tip-card casino"><h3>🎰 カジノ</h3><ul><li><strong>インスパイア</strong> 2024年開業・韓国最大級</li><li><strong>パラダイスシティ</strong> 2017年・アート充実</li><li>24h / パスポート必須 / 空港タクシー10分</li></ul></div>
+    <div class="tip-card packing"><h3>🧳 持ち物</h3><ul><li>✅ パスポート（カジノでも必要！）</li><li>✅ 韓国ウォン少し（WOWPASS用）</li><li>✅ クレカ + ワンバンクペアカード</li><li>✅ モバイルバッテリー</li><li>✅ アプリ事前DL</li><li class="warn">🧣 3月ソウル 0〜10℃！防寒必須！</li></ul></div>
+  </div>
+</section></div>
+<div class="footer">Seoul Trip 2026 ✈️ いい旅にしよう！</div>
+
+<script>
+const TC={food:"#E8453C",spot:"#42A5F5",move:"#4CAF93",casino:"#AB47BC"};
+const HOTEL_POS=[37.5650,126.9810];
+
+function timeColor(t){const m=t.match(/(\d+)/);if(!m)return'#42A5F5';const h=parseInt(m[1]);if(h>=20)return'#AB47BC';if(h>=17)return'#FF8C00';return'#42A5F5'}
+
+const timeline={
+  day1:[
+    {time:"14:15",emoji:"✈️",title:"ICN T1 到着 → WOWPASS発行",desc:"到着ロビーでTマネー付き決済カード発行",dur:"⏱ 約15分",type:"spot",detail:"T1到着ロビー1FにWOWPASS発行機。日本円チャージで交通+買い物OK。",search:"인천국제공항 제1터미널",lat:37.4602,lng:126.4407},
+    {type:"move",label:"🚃 空港鉄道(一般) → ソウル駅 → 地下鉄4号線 → 明洞駅（約70分）"},
+    {time:"15:30",emoji:"🏨",title:"ホテルチェックイン",desc:"ザ ウェスティン ジョスン ソウル",dur:"⏱ 約30分",type:"spot",detail:"106 Sogong-ro, Jung-gu / 明洞駅徒歩5分",search:"웨스틴조선서울",lat:37.5650,lng:126.9810},
+    {type:"move",label:"🚶 徒歩 ホテル → 明洞ショッピングエリア（5分）"},
+    {time:"16:30",emoji:"🛍️",title:"明洞ショッピング",desc:"コスメ・ファッション・お土産",dur:"⏱ 約1.5時間",type:"spot",detail:"WOWPASSか現金推奨。路面店でのクレカはスキミング注意。",search:"명동",lat:37.5636,lng:126.9850},
+    {type:"move",label:"🚶 徒歩 明洞 → 乙支路エリア（5分）"},
+    {time:"18:00",emoji:"🦀",title:"夕食 : カンジャンケジャン",desc:"醤油漬けワタリガニ / 明洞〜乙支路",dur:"⏱ 約1.5時間",type:"food",detail:"韓国三大珍味。カニみそ×ご飯が最高。",search:"간장게장 명동",lat:37.5660,lng:126.9900,undecided:true},
+    {type:"move",label:"🚇 地下鉄 or タクシー → 東大門（15分）"},
+    {time:"20:00",emoji:"🌃",title:"東大門ナイトショッピング",desc:"doota! mall / ミリオレ / 深夜まで営業",dur:"⏱ 約2時間",type:"spot",detail:"ファッションビルが深夜営業。卸売ビルは夜からオープン。",search:"동대문 쇼핑",lat:37.5710,lng:127.0095},
+    {type:"move",label:"🚇 地下鉄 東大門 → 明洞（10分）"},
+    {type:"hotel",label:"🏨 ホテルに戻る（ウェスティンジョスン / 明洞）"},
+  ],
+  day2:[
+    {type:"hotel",label:"🏨 ホテル出発"},
+    {type:"move",label:"🚶 徒歩 ホテル → ソルロンタン（3分）"},
+    {time:"08:00",emoji:"🍲",title:"朝食 : ソルロンタン",desc:"牛骨白湯スープ×ご飯",dur:"⏱ 約45分",type:"food",detail:"乳白色の牛骨スープ。ネギと塩で味調整。",search:"신선설농탕 명동",lat:37.5645,lng:126.9830,
+      candidates:[{name:"神仙ソルロンタン 明洞",url:"https://map.naver.com/v5/search/신선설농탕 명동"},{name:"味成屋",url:"https://map.naver.com/v5/search/미성옥 명동"}]},
+    {type:"move",label:"🚇 地下鉄3号線 明洞 → 安国（5分）"},
+    {time:"09:30",emoji:"🥐",title:"ベーカリー巡り（安国〜益善洞）",desc:"人気ベーカリーからチョイス！",dur:"⏱ 約45分",type:"food",detail:"安国〜益善洞エリアの人気ベーカリー。お気に入りを見つけよう。",search:"어니언 안국",lat:37.5792,lng:126.9850,bakery:true,
+      candidates:[{name:"🥐 オニオン安国",url:"https://map.naver.com/v5/search/어니언 안국"},{name:"🧂 小夏塩田（益善洞・塩パン）",url:"https://map.naver.com/v5/search/소하염전"},{name:"🎨 アーティストベーカリー（北村）",url:"https://map.naver.com/v5/search/아티스트베이커리 북촌"}]},
+    {type:"move",label:"🚶 徒歩 安国 → 北村韓屋村（10分）"},
+    {time:"10:30",emoji:"🏯",title:"北村韓屋村 散策",desc:"韓国伝統家屋の街並み",dur:"⏱ 約1時間",type:"spot",detail:"600年の歴史。フォトスポット多数。周辺にチマチョゴリ（韓服）レンタル店多数、着替えて散策が人気！2〜4時間で約3,000〜5,000円。",search:"북촌한옥마을",lat:37.5826,lng:126.9837,hanbok:true},
+    {type:"move",label:"🚶🚇 北村 → 広蔵市場（徒歩+地下鉄 15分）"},
+    {time:"11:30",emoji:"🍜",title:"広蔵市場 : カルグクス",desc:"韓国最大級の伝統市場",dur:"⏱ 約1.5時間",type:"food",detail:"手打ち麺カルグクス、ビンデトッ、麻薬キンパ。デカスタバも。",search:"광장시장",lat:37.5700,lng:126.9990},
+    {type:"move",label:"🚇 地下鉄2号線 → 聖水駅（15分）"},
+    {time:"14:00",emoji:"☕",title:"聖水洞カフェ巡り",desc:"ソウルのブルックリン",dur:"⏱ 約2時間",type:"spot",detail:"倉庫リノベカフェのトレンドエリア。大林倉庫ギャラリー周辺。",search:"성수동 카페거리",lat:37.5445,lng:127.0560,undecided:true},
+    {type:"move",label:"🚕 Kakao T タクシー → 清潭洞（15分）"},
+    {time:"16:15",emoji:"🥩",title:"ヨンチョンヨンファ : ユッケビビンバ",desc:"清潭洞 / 24h / 17時前なら空き◎",dur:"⏱ 約30分",type:"food",detail:"영천영화 / 新鮮ユッケたっぷりビビンバ。30分でサクッと。",search:"영천영화 청담",lat:37.5237,lng:127.0460},
+    {type:"move",label:"🚕 タクシー → 蚕室（15分）"},
+    {time:"17:15",emoji:"🗼",title:"ロッテワールドタワー",desc:"SEOUL SKY 展望台 + モール",dur:"⏱ 約1.5時間",type:"spot",detail:"555m 韓国最高層。117-123F SEOUL SKY展望台で360°パノラマ。ロッテワールドモールでショッピングも。",search:"롯데월드타워 서울스카이",lat:37.5126,lng:127.1025},
+    {type:"move",label:"🚶 徒歩 → 蚕室漢江公園（10分）"},
+    {time:"19:00",emoji:"🍜",title:"漢江ラーメン + 夜景",desc:"蚕室漢江公園でコンビニラーメン",dur:"⏱ 約1時間",type:"food",detail:"コンビニでインスタントラーメン→漢江ビュー。蚕室は夜景も最高。",search:"잠실한강공원",lat:37.5180,lng:127.0820},
+    {type:"move",label:"🚇 地下鉄 蚕室 → 明洞（30分）"},
+    {type:"hotel",label:"🏨 ホテルに戻る（ウェスティンジョスン / 明洞）"},
+  ],
+  day3:[
+    {type:"hotel",label:"🏨 ホテル出発・荷物準備"},
+    {type:"move",label:"🚶 徒歩 ホテル → 明洞エリア（3分）"},
+    {time:"10:00",emoji:"🛍️",title:"明洞ラストタイム",desc:"最後の買い物・お土産",dur:"⏱ 約1.5時間",type:"spot",detail:"買い忘れチェック！",search:"명동",lat:37.5636,lng:126.9850},
+    {type:"move",label:"🚶 徒歩でホテルへ戻る（3分）"},
+    {time:"11:30",emoji:"🧳",title:"チェックアウト",desc:"12:00まで",dur:"⏱ 手続き",type:"spot",detail:"荷物を持って移動。",search:"웨스틴조선서울",lat:37.5650,lng:126.9810},
+    {type:"move",label:"🚇 地下鉄 明洞 → 新沙/清潭（20分）"},
+    {time:"12:00",emoji:"🥓",title:"昼食 : サムギョプサル",desc:"分厚い豚バラ焼肉！🔥",dur:"⏱ 約1時間",type:"food",detail:"サンチュとキムチで巻いて食べる韓国BBQ。",search:"연돈교집 청담직영점",lat:37.5240,lng:127.0530,
+      candidates:[
+        {name:"サンチョン炭火ガーデン乙支路（中区 乙支路三街343-1）",url:"https://naver.me/xNpWhGMx"},
+        {name:"ヨンドンギョジプ清潭直営店（江南区 清潭洞2-4）",url:"https://naver.me/FetQ5haf"},
+        {name:"牛家（江南区 新沙洞504-11）",url:"https://naver.me/5JqXINSE"},
+      ]},
+    {type:"move",label:"🚶 徒歩 → カロスキル（10分）"},
+    {time:"13:00",emoji:"🌴",title:"カロスキル散策（約2時間）",desc:"カフェ・ショッピング・裏通りも◎",dur:"⏱ 約2時間",type:"spot",detail:"新沙洞のメインストリート。ブティック、カフェ、セレクトショップ。",search:"가로수길 신사동",lat:37.5200,lng:127.0230},
+    {type:"move",label:"🚇 地下鉄 新沙 → 汝矣島（15分）"},
+    {time:"15:20",emoji:"🏬",title:"現代ソウル（The Hyundai Seoul）",desc:"鈴カステラ🔔 + ショッピング",dur:"⏱ 約40分",type:"spot",detail:"韓国最大デパート。B1の진옥화で鈴カステラ大人気。屋内庭園「サウンズ・フォレスト」必見。",search:"더현대서울",lat:37.5256,lng:126.9284},
+    {type:"move",label:"🚶 徒歩 → ロンドンベーグル（3分）"},
+    {time:"16:00",emoji:"🥯",title:"ロンドンベーグル 汝矣島店",desc:"テイクアウト",dur:"⏱ テイクアウト5分",type:"food",detail:"런던베이글뮤지엄 여의도 / もちもちベーグル。",search:"런던베이글뮤지엄 여의도",lat:37.5260,lng:126.9290,bakery:true},
+    {type:"move",label:"🚇 汝矣島 → ソウル駅（20分）"},
+    {type:"move",label:"🚅 AREX直通列車 → 仁川空港（43分ノンストップ）"},
+    {time:"17:30",emoji:"🎰",title:"カジノタイム",desc:"インスパイア or パラダイスシティ",dur:"⏱ 約1時間",type:"casino",detail:"パスポート必須。空港からタクシー10分。",search:"인스파이어리조트",lat:37.4490,lng:126.4310,
+      candidates:[{name:"インスパイア（2024年・最新）",url:"https://map.naver.com/v5/search/인스파이어리조트 인천"},{name:"パラダイスシティ（アート充実）",url:"https://map.naver.com/v5/search/파라다이스시티 인천"}]},
+    {type:"move",label:"🚕 タクシー → ICN T2（10-15分）※往路T1 復路T2 注意！"},
+    {time:"19:00",emoji:"🛩️",title:"ICN T2 チェックイン・免税店",desc:"大韓航空 KE751",dur:"⏱ 約1.5時間",type:"spot",detail:"T2でチェックイン後、免税店でラストショッピング。",search:"인천국제공항 제2터미널",lat:37.4530,lng:126.4130},
+    {time:"20:40",emoji:"✈️",title:"KE751 出発 → 22:50 羽田T3着",desc:"大韓航空 B787-10 / 機内食あり",type:"spot",detail:"お疲れさま！",search:"인천국제공항 제2터미널",lat:37.4530,lng:126.4130,noMarker:true},
+  ],
+};
+
+const mapSpots={day1:[],day2:[],day3:[]};
+
+function buildTimeline(dk,cid){
+  const c=document.getElementById(cid),items=timeline[dk];
+  let html='',mi=0;
+  items.forEach((item,i)=>{
+    if(item.type==='move'||item.type==='hotel'){
+      const cls=item.type==='hotel'?'is-hotel':'is-move';
+      html+=`<div class="tl-item ${cls}"><div class="tl-time-col"></div><div class="tl-card"><div class="tl-move-label">${item.label}<span class="move-line"></span></div></div></div><div class="tl-detail"></div>`;
+      return;
+    }
+    const hasMarker=!item.noMarker&&item.lat;
+    if(hasMarker){mi++;item._mi=mi;mapSpots[dk].push({name:item.title,lat:item.lat,lng:item.lng,type:item.type,idx:mi})}
+    const tc=TC[item.type]||'#42A5F5';
+    const gUrl=item.search?`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.search)}`:'#';
+    const nUrl=item.search?`https://map.naver.com/v5/search/${encodeURIComponent(item.search)}`:'#';
+    let badges='';
+    if(item.bakery)badges+='<span class="tl-badge bakery">🍞 ベーカリー</span>';
+    if(item.hanbok)badges+='<span class="tl-badge hanbok">👘 チマチョゴリ体験可</span>';
+    if(item.undecided)badges+='<span class="tl-badge undecided">🔍 お店リサーチ中</span>';
+    if(item.candidates&&item.candidates.length>1)badges+=`<span class="tl-badge candidates">📋 候補${item.candidates.length}件</span>`;
+    let dc='';
+    if(item.candidates){dc='<div class="tl-detail-candidates">';item.candidates.forEach(cc=>{
+      const cu=cc.url||`https://map.naver.com/v5/search/${encodeURIComponent(cc.search||cc.name)}`;
+      dc+=`<a href="${cu}" target="_blank" rel="noopener" onclick="event.stopPropagation()">📍 ${cc.name}</a>`;
+    });dc+='</div>';}
+    html+=`
+      <div class="tl-item is-${item.type}" onclick="toggleDetail(this)">
+        <div class="tl-time-col"><div class="tl-time-text" style="color:${timeColor(item.time)}">${item.time}</div></div>
+        <div class="tl-card">
+          ${hasMarker?`<div class="tl-marker-num" style="background:${tc}">${mi}</div>`:''}
+          <div class="tl-emoji">${item.emoji}</div>
+          <div class="tl-body">
+            <div class="tl-title">${item.title}</div>
+            ${item.desc?`<div class="tl-desc">${item.desc}</div>`:''}
+            ${item.dur?`<div class="tl-dur">${item.dur}</div>`:''}
+            ${badges?`<div class="tl-badges">${badges}</div>`:''}
+          </div>
+          <div class="tl-expand-icon">▼</div>
+        </div>
+      </div>
+      <div class="tl-detail">
+        <div class="tl-detail-text">${item.detail}</div>
+        ${dc}
+        ${item.search?`<div class="tl-map-links">
+          <a class="tl-map-link naver" href="${nUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">📍 NAVER</a>
+          <a class="tl-map-link google" href="${gUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">📍 Google</a>
+        </div>`:''}
+      </div>`;
+  });
+  c.innerHTML=html;
+}
+function toggleDetail(el){el.classList.toggle('expanded')}
+buildTimeline('day1','tl-day1');
+buildTimeline('day2','tl-day2');
+buildTimeline('day3','tl-day3');
+
+// Food
+const foods=[
+  {emoji:"🦀",day:"1日目 夕食",name:"カンジャンケジャン",area:"明洞〜乙支路",undecided:true,links:[]},
+  {emoji:"🍲",day:"2日目 朝食",name:"ソルロンタン",area:"明洞",links:[{n:"神仙ソルロンタン",u:"https://map.naver.com/v5/search/신선설농탕 명동"},{n:"味成屋",u:"https://map.naver.com/v5/search/미성옥 명동"}]},
+  {emoji:"🥐",day:"2日目 ブランチ",name:"ベーカリー巡り",area:"安国〜益善洞",bakery:true,links:[{n:"オニオン安国",u:"https://map.naver.com/v5/search/어니언 안국"},{n:"小夏塩田",u:"https://map.naver.com/v5/search/소하염전"},{n:"アーティストベーカリー",u:"https://map.naver.com/v5/search/아티스트베이커리 북촌"}]},
+  {emoji:"🍜",day:"2日目 昼食",name:"カルグクス",area:"広蔵市場",links:[{n:"広蔵市場",u:"https://map.naver.com/v5/search/광장시장"}]},
+  {emoji:"🥩",day:"2日目 早夕食",name:"ユッケビビンバ",area:"ヨンチョンヨンファ（清潭洞）",links:[{n:"ヨンチョンヨンファ",u:"https://map.naver.com/v5/search/영천영화 청담"}]},
+  {emoji:"🍜",day:"2日目 夜食",name:"漢江ラーメン",area:"蚕室漢江公園",links:[{n:"蚕室漢江公園",u:"https://map.naver.com/v5/search/잠실한강공원"}]},
+  {emoji:"🥓",day:"3日目 昼食",name:"サムギョプサル",area:"乙支路 / 清潭 / 新沙",links:[{n:"サンチョン炭火ガーデン乙支路",u:"https://naver.me/xNpWhGMx"},{n:"ヨンドンギョジプ清潭直営店",u:"https://naver.me/FetQ5haf"},{n:"牛家（新沙洞）",u:"https://naver.me/5JqXINSE"}]},
+  {emoji:"🥯",day:"3日目 おやつ",name:"鈴カステラ+ロンドンベーグル",area:"現代ソウル / 汝矣島",links:[{n:"現代ソウル(鈴カステラ)",u:"https://map.naver.com/v5/search/더현대서울"},{n:"ロンドンベーグル",u:"https://map.naver.com/v5/search/런던베이글뮤지엄 여의도"}]},
+];
+const fg=document.getElementById('food-grid');
+foods.forEach(f=>{
+  let lh='';
+  if(f.links.length){lh='<div class="food-card-links">';f.links.forEach(l=>{lh+=`<a class="food-link" href="${l.u}" target="_blank" rel="noopener">📍 ${l.n}</a>`;});lh+='</div>';}
+  let st='';
+  if(f.undecided)st='<div class="food-status undecided">🔍 お店リサーチ中</div>';
+  else if(f.links.length>1)st=`<div class="food-status multi">📋 候補${f.links.length}件</div>`;
+  if(f.bakery)st+='<span class="tl-badge bakery" style="margin-top:2px">🍞 ベーカリー</span>';
+  fg.innerHTML+=`<div class="food-card"><div class="food-emoji">${f.emoji}</div><div class="food-card-info"><div class="food-card-day">${f.day}</div><div class="food-card-name">${f.name}</div><div class="food-card-detail">${f.area}</div>${st}${lh}</div></div>`;
+});
+
+// Map
+const map=L.map('map',{scrollWheelZoom:false}).setView([37.555,126.98],12);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'&copy; CARTO',maxZoom:19}).addTo(map);
+let mks=[],pl=null;
+function clearMap(){mks.forEach(m=>map.removeLayer(m));mks=[];if(pl){map.removeLayer(pl);pl=null}}
+
+function renderSpots(list,fit){
+  clearMap();
+  // Hotel marker
+  const hIcon=L.divIcon({className:'',html:'<div style="background:#FFA726;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;border:2.5px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3)">H</div>',iconSize:[28,28],iconAnchor:[14,14]});
+  const hm=L.marker(HOTEL_POS,{icon:hIcon,zIndexOffset:1000}).addTo(map);
+  hm.bindPopup('<b>🏨 ウェスティンジョスン ソウル</b><br><span style="font-size:10px;color:#888">明洞 / 全日程の拠点</span>');
+  mks.push(hm);
+  const pts=[HOTEL_POS.slice()];
+  list.forEach(s=>{
+    const c=TC[s.type]||'#42A5F5';
+    const icon=L.divIcon({className:'',html:`<div style="background:${c};color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.25);font-family:'DM Sans',sans-serif">${s.idx}</div>`,iconSize:[24,24],iconAnchor:[12,12]});
+    const m=L.marker([s.lat,s.lng],{icon}).addTo(map);
+    m.bindPopup(`<b>${s.idx}. ${s.name}</b>`);mks.push(m);pts.push([s.lat,s.lng]);
+  });
+  if(pts.length>1)pl=L.polyline(pts,{color:'#E8453C',weight:2.5,opacity:.45,dashArray:'6 6'}).addTo(map);
+  if(fit&&pts.length)map.fitBounds(pts,{padding:[40,40]});
+}
+
+function switchDay(d){
+  document.querySelectorAll('.day-tab').forEach((b,i)=>b.classList.toggle('active',d===0?i===3:i===d-1));
+  document.querySelectorAll('.day-content').forEach(el=>el.classList.remove('active'));
+  if(d===0){
+    const af=[...mapSpots.day1,...mapSpots.day2,...mapSpots.day3].filter(s=>s.type==='food');
+    af.forEach((s,i)=>s.idx=i+1);renderSpots(af,true);
+    document.querySelector('.food-section').scrollIntoView({behavior:'smooth',block:'start'});
+  }else{
+    const el=document.querySelector(`.day-content[data-day="${d}"]`);
+    el.classList.add('active');el.querySelector('.fade-in').classList.add('visible');
+    renderSpots(mapSpots['day'+d],true);
+  }
+}
+const obs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('visible')})},{threshold:.15});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+// Initial render with delay to ensure map container is ready
+setTimeout(()=>{map.invalidateSize();renderSpots(mapSpots.day1,true)},200);
+document.querySelector('.day-content[data-day="1"] .fade-in').classList.add('visible');
+</script>
+</body>
+</html>
