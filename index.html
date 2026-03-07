@@ -180,7 +180,7 @@
   <button class="day-tab" onclick="switchDay(0)">🍽️ グルメ</button>
 </div></div>
 <div class="day-content active" data-day="1"><div class="day-block fade-in"><div class="day-header"><div class="day-num">01</div><div class="day-info"><h3>到着 → 明洞・東大門</h3><div class="date">3/7 (土)</div></div></div><div class="day-route">ICN T1 → 明洞 → 東大門</div><div class="tl" id="tl-day1"></div></div></div>
-<div class="day-content" data-day="2"><div class="day-block fade-in"><div class="day-header"><div class="day-num">02</div><div class="day-info"><h3>安国 → 益善洞 → 広蔵市場 → 清潭 → 汝矣島</h3><div class="date">3/8 (日) グルメ&観光フルコース</div></div></div><div class="day-route">明洞 → 安国 → 北村/景福宮 → 益善洞 → 広蔵市場 → 清潭 → 汝矣島(現代ソウル) → 漢江</div><div class="tl" id="tl-day2"></div></div></div>
+<div class="day-content" data-day="2"><div class="day-block fade-in"><div class="day-header"><div class="day-num">02</div><div class="day-info"><h3>安国 → 益善洞 → 広蔵市場 → 清潭 → 汝矣島</h3><div class="date">3/8 (日) グルメ&観光フルコース</div></div></div><div class="day-route">明洞 → 安国 → 北村/景福宮 → 益善洞 → 広蔵市場 → 汝矣島(現代ソウル) → 漢江 → 清潭</div><div class="tl" id="tl-day2"></div></div></div>
 <div class="day-content" data-day="3"><div class="day-block fade-in"><div class="day-header"><div class="day-num">03</div><div class="day-info"><h3>聖水 → ロッテタワー → カジノ → 空港</h3><div class="date">3/9 (月) 最終日 / KE751 20:40発</div></div></div><div class="day-route">明洞 → 乙支路(サムギョプサル) → 聖水 → 蚕室(ロッテワールドタワー) → 明洞(荷物) → ソウル駅 → カジノ → ICN T2</div><div class="tl" id="tl-day3"></div></div></div>
 <section class="map-section fade-in">
   <h2>📍 ルートマップ</h2><div id="map"></div>
@@ -253,19 +253,19 @@ const timeline={
     {type:"move",label:"🚶 徒歩 益善洞 → 広蔵市場（5分）"},
     {time:"13:30",emoji:"🍜",title:"広蔵市場 : カルグクス",desc:"韓国最大級の伝統市場",dur:"⏱ 約1.5時間",type:"food",detail:"手打ち麺カルグクス、ビンデトッ、麻薬キンパ。デカスタバも。",search:"광장시장",lat:37.5700,lng:126.9990,
       candidates:[{name:"広蔵市場",naver:"https://map.naver.com/v5/search/광장시장",google:"https://www.google.com/maps/search/?api=1&query=광장시장"},{name:"スターバックス 広蔵市場店",naver:"https://map.naver.com/v5/search/스타벅스 광장시장",google:"https://maps.app.goo.gl/jqXuhH2fLca35h879"}]},
-    {type:"move",label:"🚕 Kakao T タクシー → 清潭洞（20分）"},
-    {time:"15:30",emoji:"🥩",title:"ヨンチョンヨンファ : ユッケビビンバ",desc:"清潭洞 / 24h / 夕方前なら空き◎",dur:"⏱ 約30分",type:"food",detail:"영천영화 / 新鮮ユッケたっぷりビビンバ。30分でサクッと。",search:"영천영화 청담",lat:37.5237,lng:127.0460,
-      candidates:[{name:"ヨンチョンヨンファ（清潭洞）",naver:"https://map.naver.com/v5/search/영천영화 청담",google:"https://www.google.com/maps/search/?api=1&query=영천영화+청담"}]},
-    {type:"move",label:"🚕 タクシー → 汝矣島（20分）"},
-    {time:"16:30",emoji:"🏬",title:"現代ソウル（The Hyundai Seoul）",desc:"鈴カステラ🔔 + ショッピング",dur:"⏱ 約1時間",type:"spot",detail:"韓国最大デパート。B1の진옥화で鈴カステラ大人気。屋内庭園「サウンズ・フォレスト」必見。",search:"더현대서울",lat:37.5256,lng:126.9284,
+    {type:"move",label:"🚕 Kakao T タクシー → 汝矣島（25分）"},
+    {time:"15:30",emoji:"🏬",title:"現代ソウル（The Hyundai Seoul）",desc:"鈴カステラ🔔 + ショッピング",dur:"⏱ 約1時間",type:"spot",detail:"韓国最大デパート。B1の진옥화で鈴カステラ大人気。屋内庭園「サウンズ・フォレスト」必見。",search:"더현대서울",lat:37.5256,lng:126.9284,
       candidates:[{name:"ザ・ヒュンダイ・ソウル",naver:"https://map.naver.com/v5/search/더현대서울",google:"https://maps.app.goo.gl/xogyfPwGKG5oFXTF7"}]},
     {type:"move",label:"🚶 徒歩 → ロンドンベーグル（3分）"},
-    {time:"17:30",emoji:"🥯",title:"ロンドンベーグル 汝矣島店",desc:"テイクアウト",dur:"⏱ テイクアウト5分",type:"food",detail:"런던베이글뮤지엄 여의도 / もちもちベーグル。",search:"런던베이글뮤지엄 여의도",lat:37.5260,lng:126.9290,bakery:true,
+    {time:"16:30",emoji:"🥯",title:"ロンドンベーグル 汝矣島店",desc:"テイクアウト",dur:"⏱ テイクアウト5分",type:"food",detail:"런던베이글뮤지엄 여의도 / もちもちベーグル。",search:"런던베이글뮤지엄 여의도",lat:37.5260,lng:126.9290,bakery:true,
       candidates:[{name:"ロンドンベーグルミュージアム 汝矣島",naver:"https://map.naver.com/v5/search/런던베이글뮤지엄 여의도",google:"https://maps.app.goo.gl/UW2DhbV7K2rqtaDv9"}]},
     {type:"move",label:"🚶 徒歩 → 汝矣島漢江公園（10分）"},
-    {time:"18:00",emoji:"🍜",title:"漢江ラーメン + 夜景",desc:"汝矣島漢江公園でコンビニラーメン",dur:"⏱ 約1時間",type:"food",detail:"コンビニでインスタントラーメン→漢江ビュー。夕暮れ〜夜景が最高。",search:"여의도한강공원",lat:37.5270,lng:126.9330,
+    {time:"17:00",emoji:"🍜",title:"漢江ラーメン + 夕暮れ",desc:"汝矣島漢江公園でコンビニラーメン",dur:"⏱ 約1時間",type:"food",detail:"コンビニでインスタントラーメン→漢江ビュー。夕暮れ〜夜景が最高。",search:"여의도한강공원",lat:37.5270,lng:126.9330,
       candidates:[{name:"汝矣島漢江公園",naver:"https://map.naver.com/v5/search/여의도한강공원",google:"https://www.google.com/maps/search/?api=1&query=여의도한강공원"}]},
-    {type:"move",label:"🚇 地下鉄 汝矣島 → 明洞（20分）"},
+    {type:"move",label:"🚕 Kakao T タクシー → 清潭洞（25分）"},
+    {time:"19:00",emoji:"🥩",title:"ヨンチョンヨンファ : ユッケビビンバ",desc:"清潭洞 / 24h / 19時台は混雑落ち着き◎",dur:"⏱ 約30分",type:"food",detail:"영천영화 / 新鮮ユッケたっぷりビビンバ。24時間営業で19時台はピーク過ぎで空きやすい。",search:"영천영화 청담",lat:37.5237,lng:127.0460,
+      candidates:[{name:"ヨンチョンヨンファ（清潭洞）",naver:"https://map.naver.com/v5/search/영천영화 청담",google:"https://www.google.com/maps/search/?api=1&query=영천영화+청담"}]},
+    {type:"move",label:"🚕 タクシー → 明洞（20分）"},
     {type:"hotel",label:"🏨 ホテルに戻る（ウェスティンジョスン / 明洞）"},
   ],
   day3:[
