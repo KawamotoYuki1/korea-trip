@@ -221,8 +221,8 @@ const timeline={
   day1:[
     {time:"14:15",emoji:"✈️",title:"ICN T1 到着 → WOWPASS発行",desc:"到着ロビーでTマネー付き決済カード発行",dur:"⏱ 約15分",type:"spot",detail:"T1到着ロビー1FにWOWPASS発行機。日本円チャージで交通+買い物OK。",search:"인천국제공항 제1터미널",lat:37.4602,lng:126.4407},
     {type:"move",label:"🚃 空港鉄道(一般) → ソウル駅 → 地下鉄4号線 → 明洞駅（約70分）"},
-    {time:"15:30",emoji:"🦀",title:"昼食 : カンジャンケジャン",desc:"醤油漬けワタリガニ / 明洞",dur:"⏱ 約1時間",type:"food",detail:"韓国三大珍味。カニみそ×ご飯が最高。遅めランチで到着後すぐ韓国グルメ！",search:"오다리집 간장게장 명동직영점",lat:37.5660,lng:126.9900,
-      candidates:[{name:"オダリチプ カンジャンケジャン 明洞直営店",naver:"https://map.naver.com/v5/search/오다리집 간장게장 명동직영점",google:"https://maps.app.goo.gl/BuBpiBE4sSaxwPS68"}]},
+    {time:"15:30",emoji:"🍽️",title:"昼食 : カンジャンケジャン or 冷麺",desc:"到着後すぐ韓国グルメ！",dur:"⏱ 約1時間",type:"food",detail:"カンジャンケジャン（醤油漬けワタリガニ）は韓国三大珍味。カニみそ×ご飯が最高。冷麺もさっぱりで◎。",search:"오다리집 간장게장 명동직영점",lat:37.5660,lng:126.9900,
+      candidates:[{name:"🦀 オダリチプ カンジャンケジャン 明洞直営店",naver:"https://map.naver.com/v5/search/오다리집 간장게장 명동직영점",google:"https://maps.app.goo.gl/BuBpiBE4sSaxwPS68"},{name:"🍜 南浦麺屋（冷麺）",naver:"https://map.naver.com/v5/search/남포면옥",google:"https://maps.app.goo.gl/3VvURGF78kugEgiWA"}]},
     {type:"move",label:"🚶 徒歩 → ホテル（5分）"},
     {time:"16:45",emoji:"🏨",title:"ホテルチェックイン",desc:"ザ ウェスティン ジョスン ソウル",dur:"⏱ 約30分",type:"spot",detail:"106 Sogong-ro, Jung-gu / 明洞駅徒歩5分",search:"웨스틴조선서울",lat:37.5650,lng:126.9810},
     {type:"move",label:"🚶 徒歩 ホテル → 明洞ショッピングエリア（5分）"},
@@ -366,7 +366,7 @@ buildTimeline('day3','tl-day3');
 
 // Food
 const foods=[
-  {emoji:"🦀",day:"1日目 昼食",name:"カンジャンケジャン",area:"明洞",links:[{n:"オダリチプ 明洞直営店",u:"https://maps.app.goo.gl/BuBpiBE4sSaxwPS68",nv:"https://map.naver.com/v5/search/오다리집 간장게장 명동직영점"}]},
+  {emoji:"🍽️",day:"1日目 昼食",name:"カンジャンケジャン or 冷麺",area:"明洞",links:[{n:"🦀 オダリチプ(カンジャンケジャン)",u:"https://maps.app.goo.gl/BuBpiBE4sSaxwPS68",nv:"https://map.naver.com/v5/search/오다리집 간장게장 명동직영점"},{n:"🍜 南浦麺屋(冷麺)",u:"https://maps.app.goo.gl/3VvURGF78kugEgiWA",nv:"https://map.naver.com/v5/search/남포면옥"}]},
   {emoji:"🐔",day:"1日目 夕食",name:"タッカンマリ",area:"東大門",links:[{n:"陳玉華ハルメ元祖タッカンマリ",nv:"https://map.naver.com/v5/search/진옥화할메원조닭한마리",u:"https://www.google.com/maps/search/?api=1&query=진옥화할메원조닭한마리"}]},
   {emoji:"🍲",day:"2日目 朝食",name:"ソルロンタン",area:"明洞",links:[{n:"神仙ソルロンタン",nv:"https://map.naver.com/v5/search/신선설농탕 명동",u:"https://www.google.com/maps/search/?api=1&query=신선설농탕+명동"},{n:"味成屋",nv:"https://map.naver.com/v5/search/미성옥 명동",u:"https://www.google.com/maps/search/?api=1&query=미성옥+명동"}]},
   {emoji:"🥐",day:"2日目 ブランチ",name:"ベーカリー巡り",area:"安国",bakery:true,links:[{n:"オニオン安国",nv:"https://map.naver.com/v5/search/어니언 안국",u:"https://maps.app.goo.gl/M8HiU4zL4UXBxWc76"},{n:"Artist Bakery",nv:"https://map.naver.com/v5/search/아티스트베이커리 북촌",u:"https://maps.app.goo.gl/UvDygDg6qeT73ssZA"}]},
@@ -397,7 +397,6 @@ foods.forEach(f=>{
 
 // Extra food (not in itinerary)
 const extraFoods=[
-  {emoji:"🍜",name:"冷麺",area:"南浦麺屋",links:[{n:"南浦麺屋",nv:"https://map.naver.com/v5/search/남포면옥",u:"https://maps.app.goo.gl/3VvURGF78kugEgiWA"}]},
   {emoji:"🥩",name:"肉",area:"チェジュマシル",links:[{n:"チェジュマシル",nv:"https://map.naver.com/v5/search/제주마실",u:"https://maps.app.goo.gl/GxMxHQQvoLPbmDXP9"}]},
 ];
 const efg=document.getElementById('extra-food-grid');
