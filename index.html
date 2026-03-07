@@ -81,7 +81,7 @@
   .tl-item.is-hotel .tl-card{background:linear-gradient(90deg,rgba(66,165,245,.04),transparent);border-left:2px dashed #B0D4F1;box-shadow:none;padding:3px 10px}
   .tl-item.is-hotel .tl-move-label{font-size:10px;color:#90CAF9;font-weight:600}
   .tl-detail{max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;margin-left:68px;background:#FAFAF8;border-radius:0 0 12px 12px;box-shadow:0 2px 6px rgba(44,24,16,.03)}
-  .tl-item.expanded+.tl-detail{max-height:280px;padding:8px 14px 10px}
+  .tl-item.expanded+.tl-detail{max-height:400px;padding:8px 14px 10px}
   .tl-detail-text{font-size:11px;color:var(--brown);line-height:1.6;margin-bottom:4px}
   .tl-map-links{display:flex;gap:5px;flex-wrap:wrap}
   .tl-map-link{display:inline-flex;align-items:center;gap:2px;font-size:9px;font-weight:600;padding:2px 7px;border-radius:5px;text-decoration:none;transition:opacity .2s}
@@ -89,8 +89,10 @@
   .tl-map-link.naver{background:#1EC800;color:#fff}
   .tl-map-link.google{background:#4285F4;color:#fff}
   .tl-detail-candidates{margin-top:4px}
-  .tl-detail-candidates a{display:block;font-size:10px;color:var(--sky);text-decoration:none;padding:1px 0;font-weight:600}
-  .tl-detail-candidates a:hover{text-decoration:underline}
+  .tl-detail-cand-item{margin-bottom:4px;padding:3px 0;border-bottom:1px dashed #eee}
+  .tl-detail-cand-item:last-child{border-bottom:none}
+  .tl-detail-cand-name{font-size:10px;font-weight:700;color:var(--deep);margin-bottom:2px}
+  .tl-detail-cand-links{display:flex;gap:4px;flex-wrap:wrap}
   .map-section{padding:8px 20px 28px;max-width:900px;margin:0 auto}
   .map-section h2{font-size:20px;font-weight:700;margin-bottom:8px}
   #map{width:100%;height:360px;border-radius:16px;box-shadow:0 8px 32px rgba(44,24,16,.1);border:3px solid #fff}
@@ -106,14 +108,18 @@
   .food-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px}
   .food-card{background:#fff;border-radius:12px;padding:10px 12px;display:flex;align-items:flex-start;gap:8px;box-shadow:0 1px 6px rgba(0,0,0,.05);transition:transform .2s;border:1px solid rgba(232,69,60,.1)}
   .food-card:hover{transform:translateY(-2px)}
+  .food-card.extra{border:1px dashed #BDBDBD;opacity:.85}
   .food-emoji{font-size:26px;flex-shrink:0}
   .food-card-info{flex:1}
   .food-card-name{font-size:12px;font-weight:700}
   .food-card-detail{font-size:10px;color:var(--brown);opacity:.6;margin-top:1px}
   .food-card-day{font-size:8px;font-weight:700;color:#fff;background:var(--coral);display:inline-block;padding:1px 6px;border-radius:3px;margin-bottom:2px}
+  .food-card-day.extra-tag{background:#9E9E9E}
   .food-card-links{display:flex;gap:3px;flex-wrap:wrap;margin-top:3px}
   .food-link{font-size:9px;font-weight:600;color:var(--sky);text-decoration:none;background:#E3F2FD;padding:1px 5px;border-radius:3px}
   .food-link:hover{background:#BBDEFB}
+  .food-link.gl{color:#4285F4;background:#E8F0FE}
+  .food-link.gl:hover{background:#D2E3FC}
   .food-status{font-size:8px;font-weight:700;display:inline-flex;align-items:center;gap:2px;margin-top:2px;padding:1px 5px;border-radius:3px;font-family:'Zen Maru Gothic',sans-serif}
   .food-status.undecided{background:#FFF9C4;color:#F57F17}
   .food-status.multi{background:#E8F5E9;color:#2E7D32}
@@ -174,8 +180,8 @@
   <button class="day-tab" onclick="switchDay(0)">🍽️ グルメ</button>
 </div></div>
 <div class="day-content active" data-day="1"><div class="day-block fade-in"><div class="day-header"><div class="day-num">01</div><div class="day-info"><h3>到着 → 明洞・東大門</h3><div class="date">3/7 (土)</div></div></div><div class="day-route">ICN T1 → 明洞 → 東大門</div><div class="tl" id="tl-day1"></div></div></div>
-<div class="day-content" data-day="2"><div class="day-block fade-in"><div class="day-header"><div class="day-num">02</div><div class="day-info"><h3>安国 → 聖水 → 清潭 → 蚕室</h3><div class="date">3/8 (日) グルメ&観光フルコース</div></div></div><div class="day-route">明洞 → 安国 → 益善洞 → 広蔵市場 → 聖水 → 清潭 → 蚕室 → 漢江</div><div class="tl" id="tl-day2"></div></div></div>
-<div class="day-content" data-day="3"><div class="day-block fade-in"><div class="day-header"><div class="day-num">03</div><div class="day-info"><h3>カロスキル → 現代ソウル → カジノ → 空港</h3><div class="date">3/9 (月) 最終日 / KE751 20:40発</div></div></div><div class="day-route">明洞 → 新沙 → カロスキル → 汝矣島 → ソウル駅 → カジノ → ICN T2</div><div class="tl" id="tl-day3"></div></div></div>
+<div class="day-content" data-day="2"><div class="day-block fade-in"><div class="day-header"><div class="day-num">02</div><div class="day-info"><h3>安国 → 益善洞 → 広蔵市場 → 清潭 → 汝矣島</h3><div class="date">3/8 (日) グルメ&観光フルコース</div></div></div><div class="day-route">明洞 → 安国 → 北村/景福宮 → 益善洞 → 広蔵市場 → 清潭 → 汝矣島(現代ソウル) → 漢江</div><div class="tl" id="tl-day2"></div></div></div>
+<div class="day-content" data-day="3"><div class="day-block fade-in"><div class="day-header"><div class="day-num">03</div><div class="day-info"><h3>聖水 → ロッテタワー → カジノ → 空港</h3><div class="date">3/9 (月) 最終日 / KE751 20:40発</div></div></div><div class="day-route">明洞 → 乙支路(サムギョプサル) → 聖水 → 蚕室(ロッテワールドタワー) → 明洞(荷物) → ソウル駅 → カジノ → ICN T2</div><div class="tl" id="tl-day3"></div></div></div>
 <section class="map-section fade-in">
   <h2>📍 ルートマップ</h2><div id="map"></div>
   <div class="legend-row">
@@ -188,6 +194,10 @@
 <div class="section-bg-warm"><section class="food-section fade-in">
   <div class="section-title-cute"><h2>🍽️ グルメプラン</h2><div class="badge">全9食</div></div>
   <div class="food-grid" id="food-grid"></div>
+</section></div>
+<div class="section-bg-warm" style="background:linear-gradient(180deg,#F5F5F5,#FAFAFA)"><section class="food-section fade-in">
+  <div class="section-title-cute"><h2>📌 その他グルメ（気になるお店）</h2></div>
+  <div class="food-grid" id="extra-food-grid"></div>
 </section></div>
 <div class="section-bg-tips"><section class="tips-section fade-in">
   <div class="tips-header"><h2>✨ お役立ち TIPS ✨</h2></div>
@@ -211,7 +221,8 @@ const timeline={
   day1:[
     {time:"14:15",emoji:"✈️",title:"ICN T1 到着 → WOWPASS発行",desc:"到着ロビーでTマネー付き決済カード発行",dur:"⏱ 約15分",type:"spot",detail:"T1到着ロビー1FにWOWPASS発行機。日本円チャージで交通+買い物OK。",search:"인천국제공항 제1터미널",lat:37.4602,lng:126.4407},
     {type:"move",label:"🚃 空港鉄道(一般) → ソウル駅 → 地下鉄4号線 → 明洞駅（約70分）"},
-    {time:"15:30",emoji:"🦀",title:"昼食 : カンジャンケジャン",desc:"醤油漬けワタリガニ / 明洞〜乙支路",dur:"⏱ 約1時間",type:"food",detail:"韓国三大珍味。カニみそ×ご飯が最高。遅めランチで到着後すぐ韓国グルメ！",search:"간장게장 명동",lat:37.5660,lng:126.9900,undecided:true},
+    {time:"15:30",emoji:"🦀",title:"昼食 : カンジャンケジャン",desc:"醤油漬けワタリガニ / 明洞",dur:"⏱ 約1時間",type:"food",detail:"韓国三大珍味。カニみそ×ご飯が最高。遅めランチで到着後すぐ韓国グルメ！",search:"오다리집 간장게장 명동직영점",lat:37.5660,lng:126.9900,
+      candidates:[{name:"オダリチプ カンジャンケジャン 明洞直営店",naver:"https://map.naver.com/v5/search/오다리집 간장게장 명동직영점",google:"https://maps.app.goo.gl/BuBpiBE4sSaxwPS68"}]},
     {type:"move",label:"🚶 徒歩 → ホテル（5分）"},
     {time:"16:45",emoji:"🏨",title:"ホテルチェックイン",desc:"ザ ウェスティン ジョスン ソウル",dur:"⏱ 約30分",type:"spot",detail:"106 Sogong-ro, Jung-gu / 明洞駅徒歩5分",search:"웨스틴조선서울",lat:37.5650,lng:126.9810},
     {type:"move",label:"🚶 徒歩 ホテル → 明洞ショッピングエリア（5分）"},
@@ -220,7 +231,7 @@ const timeline={
     {time:"19:00",emoji:"🌃",title:"東大門ナイトショッピング",desc:"doota! mall / ミリオレ / 深夜まで営業",dur:"⏱ 約1.5時間",type:"spot",detail:"ファッションビルが深夜営業。卸売ビルは夜からオープン。",search:"동대문 쇼핑",lat:37.5710,lng:127.0095},
     {type:"move",label:"🚶 徒歩 東大門エリア内（5分）"},
     {time:"20:30",emoji:"🐔",title:"夕食 : タッカンマリ",desc:"鶏一羽まるごと鍋！東大門名物",dur:"⏱ 約1.5時間",type:"food",detail:"鶏を丸ごと煮込んだ鍋。特製タレで。東大門タッカンマリ横丁が有名。",search:"진옥화할메원조닭한마리",lat:37.5705,lng:127.0070,
-      candidates:[{name:"陳玉華ハルメ元祖タッカンマリ",url:"https://map.naver.com/v5/search/진옥화할메원조닭한마리"}]},
+      candidates:[{name:"陳玉華ハルメ元祖タッカンマリ",naver:"https://map.naver.com/v5/search/진옥화할메원조닭한마리",google:"https://maps.app.goo.gl/진옥화할메원조닭한마리"}]},
     {type:"move",label:"🚇 地下鉄 東大門 → 明洞（10分）"},
     {type:"hotel",label:"🏨 ホテルに戻る（ウェスティンジョスン / 明洞）"},
   ],
@@ -228,48 +239,55 @@ const timeline={
     {type:"hotel",label:"🏨 ホテル出発"},
     {type:"move",label:"🚶 徒歩 ホテル → ソルロンタン（3分）"},
     {time:"08:00",emoji:"🍲",title:"朝食 : ソルロンタン",desc:"牛骨白湯スープ×ご飯",dur:"⏱ 約45分",type:"food",detail:"乳白色の牛骨スープ。ネギと塩で味調整。",search:"신선설농탕 명동",lat:37.5645,lng:126.9830,
-      candidates:[{name:"神仙ソルロンタン 明洞",url:"https://map.naver.com/v5/search/신선설농탕 명동"},{name:"味成屋",url:"https://map.naver.com/v5/search/미성옥 명동"}]},
+      candidates:[{name:"神仙ソルロンタン 明洞",naver:"https://map.naver.com/v5/search/신선설농탕 명동",google:"https://www.google.com/maps/search/?api=1&query=신선설농탕+명동"},{name:"味成屋",naver:"https://map.naver.com/v5/search/미성옥 명동",google:"https://www.google.com/maps/search/?api=1&query=미성옥+명동"}]},
     {type:"move",label:"🚇 地下鉄3号線 明洞 → 安国（5分）"},
-    {time:"09:30",emoji:"🥐",title:"ベーカリー巡り（安国〜益善洞）",desc:"人気ベーカリーからチョイス！",dur:"⏱ 約45分",type:"food",detail:"安国〜益善洞エリアの人気ベーカリー。お気に入りを見つけよう。",search:"어니언 안국",lat:37.5792,lng:126.9850,bakery:true,
-      candidates:[{name:"🥐 オニオン安国",url:"https://map.naver.com/v5/search/어니언 안국"},{name:"🧂 小夏塩田（益善洞・塩パン）",url:"https://map.naver.com/v5/search/소하염전"},{name:"🎨 アーティストベーカリー（北村）",url:"https://map.naver.com/v5/search/아티스트베이커리 북촌"}]},
-    {type:"move",label:"🚶 徒歩 安国 → 北村韓屋村（10分）"},
-    {time:"10:30",emoji:"🏯",title:"北村韓屋村 散策",desc:"韓国伝統家屋の街並み",dur:"⏱ 約1時間",type:"spot",detail:"600年の歴史。フォトスポット多数。周辺にチマチョゴリ（韓服）レンタル店多数、着替えて散策が人気！2〜4時間で約3,000〜5,000円。",search:"북촌한옥마을",lat:37.5826,lng:126.9837,hanbok:true},
-    {type:"move",label:"🚶🚇 北村 → 広蔵市場（徒歩+地下鉄 15分）"},
-    {time:"11:30",emoji:"🍜",title:"広蔵市場 : カルグクス",desc:"韓国最大級の伝統市場",dur:"⏱ 約1.5時間",type:"food",detail:"手打ち麺カルグクス、ビンデトッ、麻薬キンパ。デカスタバも。",search:"광장시장",lat:37.5700,lng:126.9990},
-    {type:"move",label:"🚇 地下鉄2号線 → 聖水駅（15分）"},
-    {time:"14:00",emoji:"☕",title:"聖水洞カフェ巡り",desc:"ソウルのブルックリン",dur:"⏱ 約2時間",type:"spot",detail:"倉庫リノベカフェのトレンドエリア。大林倉庫ギャラリー周辺。",search:"성수동 카페거리",lat:37.5445,lng:127.0560,undecided:true},
-    {type:"move",label:"🚕 Kakao T タクシー → 清潭洞（15分）"},
-    {time:"16:15",emoji:"🥩",title:"ヨンチョンヨンファ : ユッケビビンバ",desc:"清潭洞 / 24h / 17時前なら空き◎",dur:"⏱ 約30分",type:"food",detail:"영천영화 / 新鮮ユッケたっぷりビビンバ。30分でサクッと。",search:"영천영화 청담",lat:37.5237,lng:127.0460},
-    {type:"move",label:"🚕 タクシー → 蚕室（15分）"},
-    {time:"17:15",emoji:"🗼",title:"ロッテワールドタワー",desc:"SEOUL SKY 展望台 + モール",dur:"⏱ 約1.5時間",type:"spot",detail:"555m 韓国最高層。117-123F SEOUL SKY展望台で360°パノラマ。ロッテワールドモールでショッピングも。",search:"롯데월드타워 서울스카이",lat:37.5126,lng:127.1025},
-    {type:"move",label:"🚶 徒歩 → 蚕室漢江公園（10分）"},
-    {time:"19:00",emoji:"🍜",title:"漢江ラーメン + 夜景",desc:"蚕室漢江公園でコンビニラーメン",dur:"⏱ 約1時間",type:"food",detail:"コンビニでインスタントラーメン→漢江ビュー。蚕室は夜景も最高。",search:"잠실한강공원",lat:37.5180,lng:127.0820},
-    {type:"move",label:"🚇 地下鉄 蚕室 → 明洞（30分）"},
+    {time:"09:30",emoji:"🥐",title:"ベーカリー巡り（安国）",desc:"人気ベーカリーからチョイス！",dur:"⏱ 約45分",type:"food",detail:"安国エリアの人気ベーカリー。お気に入りを見つけよう。",search:"어니언 안국",lat:37.5792,lng:126.9850,bakery:true,
+      candidates:[{name:"🥐 オニオン安国",naver:"https://map.naver.com/v5/search/어니언 안국",google:"https://maps.app.goo.gl/M8HiU4zL4UXBxWc76"},{name:"🎨 Artist Bakery（北村）",naver:"https://map.naver.com/v5/search/아티스트베이커리 북촌",google:"https://maps.app.goo.gl/UvDygDg6qeT73ssZA"}]},
+    {type:"move",label:"🚶 徒歩 安国 → 景福宮・北村韓屋村（10分）"},
+    {time:"10:30",emoji:"🏯",title:"景福宮 & 北村韓屋村 散策",desc:"韓国伝統の宮殿と家屋の街並み",dur:"⏱ 約1.5時間",type:"spot",detail:"景福宮は朝鮮王朝の正宮。北村韓屋村は600年の歴史。周辺にチマチョゴリ（韓服）レンタル店多数、着替えて散策が人気！2〜4時間で約3,000〜5,000円。",search:"경복궁",lat:37.5796,lng:126.9770,hanbok:true,
+      candidates:[{name:"景福宮",naver:"https://map.naver.com/v5/search/경복궁",google:"https://maps.app.goo.gl/Ad5AsiQhwGid5szRA"},{name:"北村韓屋村",naver:"https://map.naver.com/v5/search/북촌한옥마을",google:"https://www.google.com/maps/search/?api=1&query=북촌한옥마을"}]},
+    {type:"move",label:"🚶 徒歩 北村 → 益善洞（10分）"},
+    {time:"12:15",emoji:"☕",title:"益善洞カフェ",desc:"レトロ韓屋カフェ通り",dur:"⏱ 約1時間",type:"food",detail:"益善洞は1920年代の韓屋をリノベしたカフェ・雑貨が集まるレトロエリア。",search:"익선동 한옥거리",lat:37.5738,lng:126.9880,
+      candidates:[{name:"🧂 小夏塩田（塩パン）",naver:"https://map.naver.com/v5/search/소하염전",google:"https://maps.app.goo.gl/PMKX5rmhZ3TLh5yt5"},{name:"🍞 ミルトースト",naver:"https://map.naver.com/v5/search/밀토스트 익선동",google:"https://maps.app.goo.gl/EGr37pdseE8MNJCx6"},{name:"🏘️ 益善洞 韓屋通り",naver:"https://map.naver.com/v5/search/익선동 한옥거리",google:"https://maps.app.goo.gl/oPMi66Rsdf1SQ7eR9"}]},
+    {type:"move",label:"🚶 徒歩 益善洞 → 広蔵市場（5分）"},
+    {time:"13:30",emoji:"🍜",title:"広蔵市場 : カルグクス",desc:"韓国最大級の伝統市場",dur:"⏱ 約1.5時間",type:"food",detail:"手打ち麺カルグクス、ビンデトッ、麻薬キンパ。デカスタバも。",search:"광장시장",lat:37.5700,lng:126.9990,
+      candidates:[{name:"広蔵市場",naver:"https://map.naver.com/v5/search/광장시장",google:"https://www.google.com/maps/search/?api=1&query=광장시장"},{name:"スターバックス 広蔵市場店",naver:"https://map.naver.com/v5/search/스타벅스 광장시장",google:"https://maps.app.goo.gl/jqXuhH2fLca35h879"}]},
+    {type:"move",label:"🚕 Kakao T タクシー → 清潭洞（20分）"},
+    {time:"15:30",emoji:"🥩",title:"ヨンチョンヨンファ : ユッケビビンバ",desc:"清潭洞 / 24h / 夕方前なら空き◎",dur:"⏱ 約30分",type:"food",detail:"영천영화 / 新鮮ユッケたっぷりビビンバ。30分でサクッと。",search:"영천영화 청담",lat:37.5237,lng:127.0460,
+      candidates:[{name:"ヨンチョンヨンファ（清潭洞）",naver:"https://map.naver.com/v5/search/영천영화 청담",google:"https://www.google.com/maps/search/?api=1&query=영천영화+청담"}]},
+    {type:"move",label:"🚕 タクシー → 汝矣島（20分）"},
+    {time:"16:30",emoji:"🏬",title:"現代ソウル（The Hyundai Seoul）",desc:"鈴カステラ🔔 + ショッピング",dur:"⏱ 約1時間",type:"spot",detail:"韓国最大デパート。B1の진옥화で鈴カステラ大人気。屋内庭園「サウンズ・フォレスト」必見。",search:"더현대서울",lat:37.5256,lng:126.9284,
+      candidates:[{name:"ザ・ヒュンダイ・ソウル",naver:"https://map.naver.com/v5/search/더현대서울",google:"https://maps.app.goo.gl/xogyfPwGKG5oFXTF7"}]},
+    {type:"move",label:"🚶 徒歩 → ロンドンベーグル（3分）"},
+    {time:"17:30",emoji:"🥯",title:"ロンドンベーグル 汝矣島店",desc:"テイクアウト",dur:"⏱ テイクアウト5分",type:"food",detail:"런던베이글뮤지엄 여의도 / もちもちベーグル。",search:"런던베이글뮤지엄 여의도",lat:37.5260,lng:126.9290,bakery:true,
+      candidates:[{name:"ロンドンベーグルミュージアム 汝矣島",naver:"https://map.naver.com/v5/search/런던베이글뮤지엄 여의도",google:"https://maps.app.goo.gl/UW2DhbV7K2rqtaDv9"}]},
+    {type:"move",label:"🚶 徒歩 → 汝矣島漢江公園（10分）"},
+    {time:"18:00",emoji:"🍜",title:"漢江ラーメン + 夜景",desc:"汝矣島漢江公園でコンビニラーメン",dur:"⏱ 約1時間",type:"food",detail:"コンビニでインスタントラーメン→漢江ビュー。夕暮れ〜夜景が最高。",search:"여의도한강공원",lat:37.5270,lng:126.9330,
+      candidates:[{name:"汝矣島漢江公園",naver:"https://map.naver.com/v5/search/여의도한강공원",google:"https://www.google.com/maps/search/?api=1&query=여의도한강공원"}]},
+    {type:"move",label:"🚇 地下鉄 汝矣島 → 明洞（20分）"},
     {type:"hotel",label:"🏨 ホテルに戻る（ウェスティンジョスン / 明洞）"},
   ],
   day3:[
     {type:"hotel",label:"🏨 ホテル出発・荷物準備"},
     {type:"move",label:"🚶 徒歩 ホテル → 明洞エリア（3分）"},
-    {time:"10:00",emoji:"🛍️",title:"明洞ラストタイム",desc:"最後の買い物・お土産",dur:"⏱ 約1.5時間",type:"spot",detail:"買い忘れチェック！",search:"명동",lat:37.5636,lng:126.9850},
+    {time:"09:30",emoji:"🛍️",title:"明洞ラストショッピング",desc:"最後の買い物・お土産",dur:"⏱ 約1時間",type:"spot",detail:"買い忘れチェック！",search:"명동",lat:37.5636,lng:126.9850},
     {type:"move",label:"🚶 徒歩でホテルへ戻る（3分）"},
-    {time:"11:30",emoji:"🧳",title:"チェックアウト",desc:"12:00まで",dur:"⏱ 手続き",type:"spot",detail:"荷物を持って移動。",search:"웨스틴조선서울",lat:37.5650,lng:126.9810},
-    {type:"move",label:"🚇 地下鉄 明洞 → 新沙/清潭（20分）"},
-    {time:"12:00",emoji:"🥓",title:"昼食 : サムギョプサル",desc:"分厚い豚バラ焼肉！🔥",dur:"⏱ 約1時間",type:"food",detail:"サンチュとキムチで巻いて食べる韓国BBQ。",search:"연돈교집 청담직영점",lat:37.5240,lng:127.0530,
+    {time:"10:30",emoji:"🧳",title:"チェックアウト",desc:"荷物はホテルに預けて身軽に出発！",dur:"⏱ 手続き",type:"spot",detail:"チェックアウト後もホテルのベルデスクで荷物を預けられます。夕方取りに戻るので身軽に観光！",search:"웨스틴조선서울",lat:37.5650,lng:126.9810},
+    {type:"move",label:"🚶 徒歩 ホテル → 乙支路（5分）"},
+    {time:"11:00",emoji:"🥓",title:"昼食 : サムギョプサル",desc:"分厚い豚バラ焼肉！🔥",dur:"⏱ 約1時間",type:"food",detail:"サンチュとキムチで巻いて食べる韓国BBQ。",search:"산촌숯불가든 을지로",lat:37.5665,lng:126.9920,
       candidates:[
-        {name:"サンチョン炭火ガーデン乙支路（中区 乙支路三街343-1）",url:"https://naver.me/xNpWhGMx"},
-        {name:"ヨンドンギョジプ清潭直営店（江南区 清潭洞2-4）",url:"https://naver.me/FetQ5haf"},
-        {name:"牛家（江南区 新沙洞504-11）",url:"https://naver.me/5JqXINSE"},
+        {name:"サンチョン炭火ガーデン乙支路（中区 乙支路三街343-1）",naver:"https://naver.me/xNpWhGMx",google:"https://www.google.com/maps/search/?api=1&query=산촌숯불가든+을지로"},
       ]},
-    {type:"move",label:"🚶 徒歩 → カロスキル（10分）"},
-    {time:"13:00",emoji:"🌴",title:"カロスキル散策（約2時間）",desc:"カフェ・ショッピング・裏通りも◎",dur:"⏱ 約2時間",type:"spot",detail:"新沙洞のメインストリート。ブティック、カフェ、セレクトショップ。",search:"가로수길 신사동",lat:37.5200,lng:127.0230},
-    {type:"move",label:"🚇 地下鉄 新沙 → 汝矣島（15分）"},
-    {time:"15:20",emoji:"🏬",title:"現代ソウル（The Hyundai Seoul）",desc:"鈴カステラ🔔 + ショッピング",dur:"⏱ 約40分",type:"spot",detail:"韓国最大デパート。B1の진옥화で鈴カステラ大人気。屋内庭園「サウンズ・フォレスト」必見。",search:"더현대서울",lat:37.5256,lng:126.9284},
-    {type:"move",label:"🚶 徒歩 → ロンドンベーグル（3分）"},
-    {time:"16:00",emoji:"🥯",title:"ロンドンベーグル 汝矣島店",desc:"テイクアウト",dur:"⏱ テイクアウト5分",type:"food",detail:"런던베이글뮤지엄 여의도 / もちもちベーグル。",search:"런던베이글뮤지엄 여의도",lat:37.5260,lng:126.9290,bakery:true},
-    {type:"move",label:"🚇 汝矣島 → ソウル駅（20分）"},
+    {type:"move",label:"🚇 地下鉄2号線 乙支路三街 → 聖水（10分）"},
+    {time:"12:30",emoji:"☕",title:"聖水洞カフェ巡り",desc:"ソウルのブルックリン",dur:"⏱ 約1.5時間",type:"spot",detail:"倉庫リノベカフェのトレンドエリア。大林倉庫ギャラリー周辺。",search:"성수동 카페거리",lat:37.5445,lng:127.0560,undecided:true},
+    {type:"move",label:"🚇 地下鉄2号線 聖水 → 蚕室（10分）"},
+    {time:"14:30",emoji:"🗼",title:"ロッテワールドタワー",desc:"SEOUL SKY 展望台 + モール",dur:"⏱ 約1.5時間",type:"spot",detail:"555m 韓国最高層。117-123F SEOUL SKY展望台で360°パノラマ。ロッテワールドモールでショッピングも。",search:"롯데월드타워 서울스카이",lat:37.5126,lng:127.1025},
+    {type:"move",label:"🚇 地下鉄 蚕室 → 明洞（30分）"},
+    {time:"16:30",emoji:"🧳",title:"ホテルで荷物ピックアップ",desc:"ベルデスクで荷物を受け取り",dur:"⏱ 約10分",type:"spot",detail:"預けていた荷物を受け取ってソウル駅へ。",search:"웨스틴조선서울",lat:37.5650,lng:126.9810,noMarker:true},
+    {type:"move",label:"🚇 地下鉄 明洞 → ソウル駅（5分）"},
     {type:"move",label:"🚅 AREX直通列車 → 仁川空港（43分ノンストップ）"},
     {time:"17:30",emoji:"🎰",title:"カジノタイム",desc:"インスパイア or パラダイスシティ",dur:"⏱ 約1時間",type:"casino",detail:"パスポート必須。空港からタクシー10分。",search:"인스파이어리조트",lat:37.4490,lng:126.4310,
-      candidates:[{name:"インスパイア（2024年・最新）",url:"https://map.naver.com/v5/search/인스파이어리조트 인천"},{name:"パラダイスシティ（アート充実）",url:"https://map.naver.com/v5/search/파라다이스시티 인천"}]},
+      candidates:[{name:"インスパイア（2024年・最新）",naver:"https://map.naver.com/v5/search/인스파이어리조트 인천",google:"https://www.google.com/maps/search/?api=1&query=인스파이어리조트"},{name:"パラダイスシティ（アート充実）",naver:"https://map.naver.com/v5/search/파라다이스시티 인천",google:"https://www.google.com/maps/search/?api=1&query=파라다이스시티+인천"}]},
     {type:"move",label:"🚕 タクシー → ICN T2（10-15分）※往路T1 復路T2 注意！"},
     {time:"19:00",emoji:"🛩️",title:"ICN T2 チェックイン・免税店",desc:"大韓航空 KE751",dur:"⏱ 約1.5時間",type:"spot",detail:"T2でチェックイン後、免税店でラストショッピング。",search:"인천국제공항 제2터미널",lat:37.4530,lng:126.4130},
     {time:"20:40",emoji:"✈️",title:"KE751 出発 → 22:50 羽田T3着",desc:"大韓航空 B787-10 / 機内食あり",type:"spot",detail:"お疲れさま！",search:"인천국제공항 제2터미널",lat:37.4530,lng:126.4130,noMarker:true},
@@ -290,18 +308,33 @@ function buildTimeline(dk,cid){
     const hasMarker=!item.noMarker&&item.lat;
     if(hasMarker){mi++;item._mi=mi;mapSpots[dk].push({name:item.title,lat:item.lat,lng:item.lng,type:item.type,idx:mi})}
     const tc=TC[item.type]||'#42A5F5';
-    const gUrl=item.search?`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.search)}`:'#';
-    const nUrl=item.search?`https://map.naver.com/v5/search/${encodeURIComponent(item.search)}`:'#';
     let badges='';
     if(item.bakery)badges+='<span class="tl-badge bakery">🍞 ベーカリー</span>';
     if(item.hanbok)badges+='<span class="tl-badge hanbok">👘 チマチョゴリ体験可</span>';
     if(item.undecided)badges+='<span class="tl-badge undecided">🔍 お店リサーチ中</span>';
     if(item.candidates&&item.candidates.length>1)badges+=`<span class="tl-badge candidates">📋 候補${item.candidates.length}件</span>`;
+    // Build candidate section with per-candidate NAVER+Google links
     let dc='';
-    if(item.candidates){dc='<div class="tl-detail-candidates">';item.candidates.forEach(cc=>{
-      const cu=cc.url||`https://map.naver.com/v5/search/${encodeURIComponent(cc.search||cc.name)}`;
-      dc+=`<a href="${cu}" target="_blank" rel="noopener" onclick="event.stopPropagation()">📍 ${cc.name}</a>`;
-    });dc+='</div>';}
+    if(item.candidates){
+      dc='<div class="tl-detail-candidates">';
+      item.candidates.forEach(cc=>{
+        dc+=`<div class="tl-detail-cand-item"><div class="tl-detail-cand-name">📍 ${cc.name}</div><div class="tl-detail-cand-links">`;
+        if(cc.naver)dc+=`<a class="tl-map-link naver" href="${cc.naver}" target="_blank" rel="noopener" onclick="event.stopPropagation()">📍 NAVER</a>`;
+        if(cc.google)dc+=`<a class="tl-map-link google" href="${cc.google}" target="_blank" rel="noopener" onclick="event.stopPropagation()">📍 Google</a>`;
+        dc+=`</div></div>`;
+      });
+      dc+='</div>';
+    }
+    // Main NAVER+Google for the item itself (only if no candidates)
+    let mainLinks='';
+    if(item.search && !item.candidates){
+      const nUrl=`https://map.naver.com/v5/search/${encodeURIComponent(item.search)}`;
+      const gUrl=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.search)}`;
+      mainLinks=`<div class="tl-map-links">
+        <a class="tl-map-link naver" href="${nUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">📍 NAVER</a>
+        <a class="tl-map-link google" href="${gUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">📍 Google</a>
+      </div>`;
+    }
     html+=`
       <div class="tl-item is-${item.type}" onclick="toggleDetail(this)">
         <div class="tl-time-col"><div class="tl-time-text" style="color:${timeColor(item.time)}">${item.time}</div></div>
@@ -320,10 +353,7 @@ function buildTimeline(dk,cid){
       <div class="tl-detail">
         <div class="tl-detail-text">${item.detail}</div>
         ${dc}
-        ${item.search?`<div class="tl-map-links">
-          <a class="tl-map-link naver" href="${nUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">📍 NAVER</a>
-          <a class="tl-map-link google" href="${gUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">📍 Google</a>
-        </div>`:''}
+        ${mainLinks}
       </div>`;
   });
   c.innerHTML=html;
@@ -335,25 +365,52 @@ buildTimeline('day3','tl-day3');
 
 // Food
 const foods=[
-  {emoji:"🦀",day:"1日目 昼食",name:"カンジャンケジャン",area:"明洞〜乙支路",undecided:true,links:[]},
-  {emoji:"🐔",day:"1日目 夕食",name:"タッカンマリ",area:"東大門",links:[{n:"陳玉華ハルメ元祖タッカンマリ",u:"https://map.naver.com/v5/search/진옥화할메원조닭한마리"}]},
-  {emoji:"🍲",day:"2日目 朝食",name:"ソルロンタン",area:"明洞",links:[{n:"神仙ソルロンタン",u:"https://map.naver.com/v5/search/신선설농탕 명동"},{n:"味成屋",u:"https://map.naver.com/v5/search/미성옥 명동"}]},
-  {emoji:"🥐",day:"2日目 ブランチ",name:"ベーカリー巡り",area:"安国〜益善洞",bakery:true,links:[{n:"オニオン安国",u:"https://map.naver.com/v5/search/어니언 안국"},{n:"小夏塩田",u:"https://map.naver.com/v5/search/소하염전"},{n:"アーティストベーカリー",u:"https://map.naver.com/v5/search/아티스트베이커리 북촌"}]},
-  {emoji:"🍜",day:"2日目 昼食",name:"カルグクス",area:"広蔵市場",links:[{n:"広蔵市場",u:"https://map.naver.com/v5/search/광장시장"}]},
-  {emoji:"🥩",day:"2日目 早夕食",name:"ユッケビビンバ",area:"ヨンチョンヨンファ（清潭洞）",links:[{n:"ヨンチョンヨンファ",u:"https://map.naver.com/v5/search/영천영화 청담"}]},
-  {emoji:"🍜",day:"2日目 夜食",name:"漢江ラーメン",area:"蚕室漢江公園",links:[{n:"蚕室漢江公園",u:"https://map.naver.com/v5/search/잠실한강공원"}]},
-  {emoji:"🥓",day:"3日目 昼食",name:"サムギョプサル",area:"乙支路 / 清潭 / 新沙",links:[{n:"サンチョン炭火ガーデン乙支路",u:"https://naver.me/xNpWhGMx"},{n:"ヨンドンギョジプ清潭直営店",u:"https://naver.me/FetQ5haf"},{n:"牛家（新沙洞）",u:"https://naver.me/5JqXINSE"}]},
-  {emoji:"🥯",day:"3日目 おやつ",name:"鈴カステラ+ロンドンベーグル",area:"現代ソウル / 汝矣島",links:[{n:"現代ソウル(鈴カステラ)",u:"https://map.naver.com/v5/search/더현대서울"},{n:"ロンドンベーグル",u:"https://map.naver.com/v5/search/런던베이글뮤지엄 여의도"}]},
+  {emoji:"🦀",day:"1日目 昼食",name:"カンジャンケジャン",area:"明洞",links:[{n:"オダリチプ 明洞直営店",u:"https://maps.app.goo.gl/BuBpiBE4sSaxwPS68",nv:"https://map.naver.com/v5/search/오다리집 간장게장 명동직영점"}]},
+  {emoji:"🐔",day:"1日目 夕食",name:"タッカンマリ",area:"東大門",links:[{n:"陳玉華ハルメ元祖タッカンマリ",nv:"https://map.naver.com/v5/search/진옥화할메원조닭한마리",u:"https://www.google.com/maps/search/?api=1&query=진옥화할메원조닭한마리"}]},
+  {emoji:"🍲",day:"2日目 朝食",name:"ソルロンタン",area:"明洞",links:[{n:"神仙ソルロンタン",nv:"https://map.naver.com/v5/search/신선설농탕 명동",u:"https://www.google.com/maps/search/?api=1&query=신선설농탕+명동"},{n:"味成屋",nv:"https://map.naver.com/v5/search/미성옥 명동",u:"https://www.google.com/maps/search/?api=1&query=미성옥+명동"}]},
+  {emoji:"🥐",day:"2日目 ブランチ",name:"ベーカリー巡り",area:"安国",bakery:true,links:[{n:"オニオン安国",nv:"https://map.naver.com/v5/search/어니언 안국",u:"https://maps.app.goo.gl/M8HiU4zL4UXBxWc76"},{n:"Artist Bakery",nv:"https://map.naver.com/v5/search/아티스트베이커리 북촌",u:"https://maps.app.goo.gl/UvDygDg6qeT73ssZA"}]},
+  {emoji:"☕",day:"2日目 カフェ",name:"益善洞カフェ",area:"益善洞",links:[{n:"小夏塩田",nv:"https://map.naver.com/v5/search/소하염전",u:"https://maps.app.goo.gl/PMKX5rmhZ3TLh5yt5"},{n:"ミルトースト",nv:"https://map.naver.com/v5/search/밀토스트 익선동",u:"https://maps.app.goo.gl/EGr37pdseE8MNJCx6"}]},
+  {emoji:"🍜",day:"2日目 昼食",name:"カルグクス",area:"広蔵市場",links:[{n:"広蔵市場",nv:"https://map.naver.com/v5/search/광장시장",u:"https://www.google.com/maps/search/?api=1&query=광장시장"},{n:"スターバックス",nv:"https://map.naver.com/v5/search/스타벅스 광장시장",u:"https://maps.app.goo.gl/jqXuhH2fLca35h879"}]},
+  {emoji:"🥩",day:"2日目 早夕食",name:"ユッケビビンバ",area:"ヨンチョンヨンファ（清潭洞）",links:[{n:"ヨンチョンヨンファ",nv:"https://map.naver.com/v5/search/영천영화 청담",u:"https://www.google.com/maps/search/?api=1&query=영천영화+청담"}]},
+  {emoji:"🥯",day:"2日目 おやつ",name:"ロンドンベーグル",area:"汝矣島",bakery:true,links:[{n:"ロンドンベーグル 汝矣島",nv:"https://map.naver.com/v5/search/런던베이글뮤지엄 여의도",u:"https://maps.app.goo.gl/UW2DhbV7K2rqtaDv9"}]},
+  {emoji:"🍜",day:"2日目 夜食",name:"漢江ラーメン + 夜景",area:"汝矣島漢江公園",links:[{n:"汝矣島漢江公園",nv:"https://map.naver.com/v5/search/여의도한강공원",u:"https://www.google.com/maps/search/?api=1&query=여의도한강공원"}]},
+  {emoji:"🥓",day:"3日目 昼食",name:"サムギョプサル",area:"乙支路",links:[{n:"サンチョン炭火ガーデン乙支路",nv:"https://naver.me/xNpWhGMx",u:"https://www.google.com/maps/search/?api=1&query=산촌숯불가든+을지로"}]},
 ];
 const fg=document.getElementById('food-grid');
 foods.forEach(f=>{
   let lh='';
-  if(f.links.length){lh='<div class="food-card-links">';f.links.forEach(l=>{lh+=`<a class="food-link" href="${l.u}" target="_blank" rel="noopener">📍 ${l.n}</a>`;});lh+='</div>';}
+  if(f.links&&f.links.length){
+    lh='<div class="food-card-links">';
+    f.links.forEach(l=>{
+      if(l.nv)lh+=`<a class="food-link" href="${l.nv}" target="_blank" rel="noopener">📍N ${l.n}</a>`;
+      if(l.u)lh+=`<a class="food-link gl" href="${l.u}" target="_blank" rel="noopener">📍G ${l.n}</a>`;
+    });
+    lh+='</div>';
+  }
   let st='';
   if(f.undecided)st='<div class="food-status undecided">🔍 お店リサーチ中</div>';
-  else if(f.links.length>1)st=`<div class="food-status multi">📋 候補${f.links.length}件</div>`;
+  else if(f.links&&f.links.length>1)st=`<div class="food-status multi">📋 候補${f.links.length}件</div>`;
   if(f.bakery)st+='<span class="tl-badge bakery" style="margin-top:2px">🍞 ベーカリー</span>';
   fg.innerHTML+=`<div class="food-card"><div class="food-emoji">${f.emoji}</div><div class="food-card-info"><div class="food-card-day">${f.day}</div><div class="food-card-name">${f.name}</div><div class="food-card-detail">${f.area}</div>${st}${lh}</div></div>`;
+});
+
+// Extra food (not in itinerary)
+const extraFoods=[
+  {emoji:"🍜",name:"冷麺",area:"南浦麺屋",links:[{n:"南浦麺屋",nv:"https://map.naver.com/v5/search/남포면옥",u:"https://maps.app.goo.gl/3VvURGF78kugEgiWA"}]},
+  {emoji:"🥩",name:"肉",area:"チェジュマシル",links:[{n:"チェジュマシル",nv:"https://map.naver.com/v5/search/제주마실",u:"https://maps.app.goo.gl/GxMxHQQvoLPbmDXP9"}]},
+];
+const efg=document.getElementById('extra-food-grid');
+extraFoods.forEach(f=>{
+  let lh='';
+  if(f.links&&f.links.length){
+    lh='<div class="food-card-links">';
+    f.links.forEach(l=>{
+      if(l.nv)lh+=`<a class="food-link" href="${l.nv}" target="_blank" rel="noopener">📍N ${l.n}</a>`;
+      if(l.u)lh+=`<a class="food-link gl" href="${l.u}" target="_blank" rel="noopener">📍G ${l.n}</a>`;
+    });
+    lh+='</div>';
+  }
+  efg.innerHTML+=`<div class="food-card extra"><div class="food-emoji">${f.emoji}</div><div class="food-card-info"><div class="food-card-day extra-tag">その他</div><div class="food-card-name">${f.name}</div><div class="food-card-detail">${f.area}</div>${lh}</div></div>`;
 });
 
 // Map
@@ -364,7 +421,6 @@ function clearMap(){mks.forEach(m=>map.removeLayer(m));mks=[];if(pl){map.removeL
 
 function renderSpots(list,fit){
   clearMap();
-  // Hotel marker
   const hIcon=L.divIcon({className:'',html:'<div style="background:#FFA726;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;border:2.5px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3)">H</div>',iconSize:[28,28],iconAnchor:[14,14]});
   const hm=L.marker(HOTEL_POS,{icon:hIcon,zIndexOffset:1000}).addTo(map);
   hm.bindPopup('<b>🏨 ウェスティンジョスン ソウル</b><br><span style="font-size:10px;color:#888">明洞 / 全日程の拠点</span>');
@@ -395,7 +451,6 @@ function switchDay(d){
 }
 const obs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('visible')})},{threshold:.15});
 document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
-// Initial render with delay to ensure map container is ready
 setTimeout(()=>{map.invalidateSize();renderSpots(mapSpots.day1,true)},200);
 document.querySelector('.day-content[data-day="1"] .fade-in').classList.add('visible');
 </script>
