@@ -180,8 +180,8 @@
   <button class="day-tab" onclick="switchDay(0)">🍽️ グルメ</button>
 </div></div>
 <div class="day-content active" data-day="1"><div class="day-block fade-in"><div class="day-header"><div class="day-num">01</div><div class="day-info"><h3>到着 → 明洞・東大門</h3><div class="date">3/7 (土)</div></div></div><div class="day-route">ICN T1 → 明洞 → 東大門</div><div class="tl" id="tl-day1"></div></div></div>
-<div class="day-content" data-day="2"><div class="day-block fade-in"><div class="day-header"><div class="day-num">02</div><div class="day-info"><h3>安国 → 益善洞 → 広蔵市場 → 清潭 → 汝矣島</h3><div class="date">3/8 (日) グルメ&観光フルコース</div></div></div><div class="day-route">明洞 → 安国 → 北村/景福宮 → 益善洞 → 広蔵市場 → 汝矣島(現代ソウル) → 漢江 → 清潭</div><div class="tl" id="tl-day2"></div></div></div>
-<div class="day-content" data-day="3"><div class="day-block fade-in"><div class="day-header"><div class="day-num">03</div><div class="day-info"><h3>聖水 → ロッテタワー → カジノ → 空港</h3><div class="date">3/9 (月) 最終日 / KE751 20:40発</div></div></div><div class="day-route">明洞 → 乙支路(サムギョプサル) → 聖水 → 蚕室(ロッテワールドタワー) → 明洞(荷物) → ソウル駅 → カジノ → ICN T2</div><div class="tl" id="tl-day3"></div></div></div>
+<div class="day-content" data-day="2"><div class="day-block fade-in"><div class="day-header"><div class="day-num">02</div><div class="day-info"><h3>安国 → 益善洞 → 広蔵市場 → 汝矣島</h3><div class="date">3/8 (日) グルメ&観光フルコース</div></div></div><div class="day-route">明洞 → 安国 → 北村/景福宮 → 益善洞 → 広蔵市場 → 汝矣島(現代ソウル) → 漢江</div><div class="tl" id="tl-day2"></div></div></div>
+<div class="day-content" data-day="3"><div class="day-block fade-in"><div class="day-header"><div class="day-num">03</div><div class="day-info"><h3>聖水 → 清潭 → ロッテタワー → カジノ → 空港</h3><div class="date">3/9 (月) 最終日 / KE751 20:40発</div></div></div><div class="day-route">明洞 → 乙支路(サムギョプサル) → 聖水 → 清潭(ヨンチョンヨンファ) → 蚕室(ロッテワールドタワー) → 明洞(荷物) → ソウル駅 → カジノ → ICN T2</div><div class="tl" id="tl-day3"></div></div></div>
 <section class="map-section fade-in">
   <h2>📍 ルートマップ</h2><div id="map"></div>
   <div class="legend-row">
@@ -262,10 +262,7 @@ const timeline={
     {type:"move",label:"🚶 徒歩 → 汝矣島漢江公園（10分）"},
     {time:"17:00",emoji:"🍜",title:"漢江ラーメン + 夕暮れ",desc:"汝矣島漢江公園でコンビニラーメン",dur:"⏱ 約1時間",type:"food",detail:"コンビニでインスタントラーメン→漢江ビュー。夕暮れ〜夜景が最高。",search:"여의도한강공원",lat:37.5270,lng:126.9330,
       candidates:[{name:"汝矣島漢江公園",naver:"https://map.naver.com/v5/search/여의도한강공원",google:"https://www.google.com/maps/search/?api=1&query=여의도한강공원"}]},
-    {type:"move",label:"🚕 Kakao T タクシー → 清潭洞（25分）"},
-    {time:"19:00",emoji:"🥩",title:"ヨンチョンヨンファ : ユッケビビンバ",desc:"清潭洞 / 24h / 19時台は混雑落ち着き◎",dur:"⏱ 約30分",type:"food",detail:"영천영화 / 新鮮ユッケたっぷりビビンバ。24時間営業で19時台はピーク過ぎで空きやすい。",search:"영천영화 청담",lat:37.5237,lng:127.0460,
-      candidates:[{name:"ヨンチョンヨンファ（清潭洞）",naver:"https://map.naver.com/v5/search/영천영화 청담",google:"https://www.google.com/maps/search/?api=1&query=영천영화+청담"}]},
-    {type:"move",label:"🚕 タクシー → 明洞（20分）"},
+    {type:"move",label:"🚇 地下鉄 汝矣島 → 明洞（20分）"},
     {type:"hotel",label:"🏨 ホテルに戻る（ウェスティンジョスン / 明洞）"},
   ],
   day3:[
@@ -281,8 +278,11 @@ const timeline={
       ]},
     {type:"move",label:"🚇 地下鉄2号線 乙支路三街 → 聖水（10分）"},
     {time:"12:30",emoji:"☕",title:"聖水洞カフェ巡り",desc:"ソウルのブルックリン",dur:"⏱ 約1.5時間",type:"spot",detail:"倉庫リノベカフェのトレンドエリア。大林倉庫ギャラリー周辺。",search:"성수동 카페거리",lat:37.5445,lng:127.0560,undecided:true},
-    {type:"move",label:"🚇 地下鉄2号線 聖水 → 蚕室（10分）"},
-    {time:"14:30",emoji:"🗼",title:"ロッテワールドタワー",desc:"SEOUL SKY 展望台 + モール",dur:"⏱ 約1.5時間",type:"spot",detail:"555m 韓国最高層。117-123F SEOUL SKY展望台で360°パノラマ。ロッテワールドモールでショッピングも。",search:"롯데월드타워 서울스카이",lat:37.5126,lng:127.1025},
+    {type:"move",label:"🚕 Kakao T タクシー → 清潭洞（10分）"},
+    {time:"14:15",emoji:"🥩",title:"ヨンチョンヨンファ : ユッケビビンバ",desc:"清潭洞 / 24h営業",dur:"⏱ 約30分",type:"food",detail:"영천영화 / 新鮮ユッケたっぷりビビンバ。24時間営業で昼過ぎは空きやすい。30分でサクッと。",search:"영천영화 청담",lat:37.5237,lng:127.0460,
+      candidates:[{name:"ヨンチョンヨンファ（清潭洞）",naver:"https://map.naver.com/v5/search/영천영화 청담",google:"https://www.google.com/maps/search/?api=1&query=영천영화+청담"}]},
+    {type:"move",label:"🚕 タクシー → 蚕室（15分）"},
+    {time:"15:00",emoji:"🗼",title:"ロッテワールドタワー",desc:"SEOUL SKY 展望台 + モール",dur:"⏱ 約1.5時間",type:"spot",detail:"555m 韓国最高層。117-123F SEOUL SKY展望台で360°パノラマ。ロッテワールドモールでショッピングも。",search:"롯데월드타워 서울스카이",lat:37.5126,lng:127.1025},
     {type:"move",label:"🚇 地下鉄 蚕室 → 明洞（30分）"},
     {time:"16:30",emoji:"🧳",title:"ホテルで荷物ピックアップ",desc:"ベルデスクで荷物を受け取り",dur:"⏱ 約10分",type:"spot",detail:"預けていた荷物を受け取ってソウル駅へ。",search:"웨스틴조선서울",lat:37.5650,lng:126.9810,noMarker:true},
     {type:"move",label:"🚇 地下鉄 明洞 → ソウル駅（5分）"},
@@ -372,7 +372,7 @@ const foods=[
   {emoji:"🥐",day:"2日目 ブランチ",name:"ベーカリー巡り",area:"安国",bakery:true,links:[{n:"オニオン安国",nv:"https://map.naver.com/v5/search/어니언 안국",u:"https://maps.app.goo.gl/M8HiU4zL4UXBxWc76"},{n:"Artist Bakery",nv:"https://map.naver.com/v5/search/아티스트베이커리 북촌",u:"https://maps.app.goo.gl/UvDygDg6qeT73ssZA"}]},
   {emoji:"☕",day:"2日目 カフェ",name:"益善洞カフェ",area:"益善洞",links:[{n:"小夏塩田",nv:"https://map.naver.com/v5/search/소하염전",u:"https://maps.app.goo.gl/PMKX5rmhZ3TLh5yt5"},{n:"ミルトースト",nv:"https://map.naver.com/v5/search/밀토스트 익선동",u:"https://maps.app.goo.gl/EGr37pdseE8MNJCx6"}]},
   {emoji:"🍜",day:"2日目 昼食",name:"カルグクス",area:"広蔵市場",links:[{n:"広蔵市場",nv:"https://map.naver.com/v5/search/광장시장",u:"https://www.google.com/maps/search/?api=1&query=광장시장"},{n:"スターバックス",nv:"https://map.naver.com/v5/search/스타벅스 광장시장",u:"https://maps.app.goo.gl/jqXuhH2fLca35h879"}]},
-  {emoji:"🥩",day:"2日目 早夕食",name:"ユッケビビンバ",area:"ヨンチョンヨンファ（清潭洞）",links:[{n:"ヨンチョンヨンファ",nv:"https://map.naver.com/v5/search/영천영화 청담",u:"https://www.google.com/maps/search/?api=1&query=영천영화+청담"}]},
+  {emoji:"🥩",day:"3日目 軽食",name:"ユッケビビンバ",area:"ヨンチョンヨンファ（清潭洞）",links:[{n:"ヨンチョンヨンファ",nv:"https://map.naver.com/v5/search/영천영화 청담",u:"https://www.google.com/maps/search/?api=1&query=영천영화+청담"}]},
   {emoji:"🥯",day:"2日目 おやつ",name:"ロンドンベーグル",area:"汝矣島",bakery:true,links:[{n:"ロンドンベーグル 汝矣島",nv:"https://map.naver.com/v5/search/런던베이글뮤지엄 여의도",u:"https://maps.app.goo.gl/UW2DhbV7K2rqtaDv9"}]},
   {emoji:"🍜",day:"2日目 夜食",name:"漢江ラーメン + 夜景",area:"汝矣島漢江公園",links:[{n:"汝矣島漢江公園",nv:"https://map.naver.com/v5/search/여의도한강공원",u:"https://www.google.com/maps/search/?api=1&query=여의도한강공원"}]},
   {emoji:"🥓",day:"3日目 昼食",name:"サムギョプサル",area:"乙支路",links:[{n:"サンチョン炭火ガーデン乙支路",nv:"https://naver.me/xNpWhGMx",u:"https://www.google.com/maps/search/?api=1&query=산촌숯불가든+을지로"}]},
